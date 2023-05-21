@@ -2,9 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Test</title>
+    <th:block th:replace="~{layout :: link-css}"></th:block>
 </head>
 <body>
-<h1>Hello, Test endpoint!</h1>
+<th:block th:replace="~{layout :: header}"></th:block>
+
+<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative">
+        <h1>English Dictionary</h1>
+        <h2 class="text-primary text-center"> welcome to english dictionary</h2>
+    </div>
+</section>
+
+<th:block th:replace="~{layout :: footer}"></th:block>
+<th:block th:replace="~{layout :: script-js}"></th:block>
 </body>
 </html>
