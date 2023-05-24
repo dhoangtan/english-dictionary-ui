@@ -31,7 +31,7 @@ public class MainController {
             @ModelAttribute("loginForm") LoginForm loginForm
     )
     {
-        if (userService.user(loginForm) != null) {
+        if (userService.getUser(loginForm) != null) {
             return "redirect:/";
         }
         else {
