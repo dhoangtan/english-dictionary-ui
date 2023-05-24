@@ -2,7 +2,10 @@ package com.englishdictionary.appui.service;
 
 import com.englishdictionary.appui.dto.LoginForm;
 import com.englishdictionary.appui.models.User;
+import org.json.JSONObject;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -23,19 +26,26 @@ public class UserService {
         User user = restTemplate.getForObject(url, User.class);
         return user;
     }
-//    public User getUser(
-//            @PathVariable("loginForm") @NonNull LoginForm loginForm
-//    ) {
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//         JSONOb
-//        requestBody.put("email", loginForm.getEmail());
-//        requestBody.put("password", loginForm.getPassword());
-////        request.put("email", loginForm.getEmail());
-//        return new User();
-//    }
+    public User getUser(
+            @PathVariable("loginForm") @NonNull LoginForm loginForm
+    ) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        // request body parameters
+        HttpMethod method = HttpMethod.GET;
+
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("key1", "value1");
+        requestBody.put("key2", "value2");
+
+        HttpEntity<LoginForm> request = new HttpEntity<>(loginForm, headers);
+        String url = "http://localhost:" + Port + "/api/user/";
+//        User user = restTemplate.postForObject(url, request, User.class);
+        User user = restTemplate.getForObject(url, User.class);
+        return user;
+    }
 
     public void Register(
             @PathVariable("registerForm") @NonNull LoginForm registerForm

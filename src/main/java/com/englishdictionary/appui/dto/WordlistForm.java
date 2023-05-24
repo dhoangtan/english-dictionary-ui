@@ -1,5 +1,6 @@
-package com.englishdictionary.appui.models;
+package com.englishdictionary.appui.dto;
 
+import com.englishdictionary.appui.models.Word;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Wordlist {
+@NoArgsConstructor
+public class WordlistForm {
     private String wordlistId;
     private String name;
     private String userId;

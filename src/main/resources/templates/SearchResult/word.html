@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>English Dictionary</title>
+    <th:block th:replace="~{layout :: link-css}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{layout :: header}"></th:block>
+
+
+<section id="faq" class="faq section-bg">
+    <div class="container aos-init aos-animate" data-aos="fade-up">
+
+        <div class="section-title">
+            <br>
+            <h2>Meaning of <span class="fw-bold text-danger" th:text="${word.getWord()}"></span> in English</h2>
+            <h4>Phonetic: <span th:text="${word.getPhonetic()}"></span></h4>
+        </div>
+        <hr class="my-4">
+        <div class="section-title">
+            <h4 class="text-primary">Meanings</h4>
+        </div>
+
+        <div class="faq-list">
+            <ul th:each="meaning,i : ${word.getMeanings()}">
+                <li data-aos="fade-up" class="aos-init aos-animate">
+                    <i class="bx bx-help-circle icon-help">
+
+                    </i> <a data-bs-toggle="collapse" class="collapse collapsed"
+                            th:data-bs-target="'#faq-list-'+ ${i.index}" aria-expanded="false">
+                    Part Of Speech:
+                    <span class="text-secondary" th:text=" ${meaning.getPartOfSpeech()}"></span>
+                    <i class="bx bx-chevron-down icon-show"></i><i
+                        class="bx bx-chevron-up icon-close"></i></a>
+                    <div th:id="'faq-list-'+ ${i.index}" class="collapse" data-bs-parent=".faq-list" style="">
+                        <p>
+                            Definition: <span class="text-secondary" th:text="${meaning.getDefinitions().get(0).getDefinition()}"></span>
+                        </p>
+                        <p>
+                            Example: <span class="text-secondary" th:text="${meaning.getDefinitions().get(0).getExample()}"></span>
+                        </p>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+        <hr class="my-2">
+    </div>
+</section>
+
+
+<th:block th:replace="~{layout :: footer}"></th:block>
+<th:block th:replace="~{layout :: script-js}"></th:block>
+</body>
+</html>

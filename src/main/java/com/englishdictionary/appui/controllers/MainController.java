@@ -2,21 +2,19 @@ package com.englishdictionary.appui.controllers;
 
 import com.englishdictionary.appui.dto.LoginForm;
 import com.englishdictionary.appui.dto.RegisterForm;
+import com.englishdictionary.appui.dto.Word;
 import com.englishdictionary.appui.service.UserService;
 import com.englishdictionary.appui.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/")
 @Controller
 public class MainController {
-//    @Autowired
-//    WordService wordService;
+    @Autowired
+    WordService wordService;
     @Autowired
     UserService userService;
     @GetMapping
@@ -53,5 +51,7 @@ public class MainController {
     {
         return "redirect:/index";
     }
+
+
 
 }
