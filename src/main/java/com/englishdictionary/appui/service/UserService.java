@@ -34,16 +34,10 @@ public class UserService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         // request body parameters
-        HttpMethod method = HttpMethod.GET;
-
-        JSONObject requestBody = new JSONObject();
-        requestBody.put("key1", "value1");
-        requestBody.put("key2", "value2");
 
         HttpEntity<LoginForm> request = new HttpEntity<>(loginForm, headers);
         String url = "http://localhost:" + Port + "/api/user/";
-//        User user = restTemplate.postForObject(url, request, User.class);
-        User user = restTemplate.getForObject(url, User.class);
+        User user = restTemplate.postForObject(url, request,User.class);
         return user;
     }
 

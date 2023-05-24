@@ -52,6 +52,7 @@ public class WordlistService {
         JSONObject jsonObject = new JSONObject(wordList);
         Gson gson = new Gson();
         wordList = gson.fromJson(jsonObject.toString(), List.class);
+
         return wordList==null ? null:wordList;
     }
 

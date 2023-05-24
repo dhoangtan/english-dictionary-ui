@@ -13,7 +13,7 @@
         <h1>English Dictionary</h1>
         <h2 class="text-primary text-center"> welcome to english dictionary</h2>
 
-        <form th:action="@{/login}" method="post" th:object="${loginForm}">
+        <form th:action="@{/templates/account}" method="post" th:object="${loginForm}">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" th:field="*{email}" />
             <label for="password">Password</label>

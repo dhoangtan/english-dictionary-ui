@@ -2,7 +2,6 @@ package com.englishdictionary.appui.controllers;
 
 import com.englishdictionary.appui.dto.LoginForm;
 import com.englishdictionary.appui.dto.RegisterForm;
-import com.englishdictionary.appui.dto.Word;
 import com.englishdictionary.appui.service.UserService;
 import com.englishdictionary.appui.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +18,13 @@ public class MainController {
     UserService userService;
     @GetMapping
     public String index() {
-        return "index";
+        return "home/index";
     }
 
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("loginForm", new LoginForm());
-        return "login";
+        return "account/login";
     }
     @PostMapping("/login")
     public String login(
@@ -42,7 +41,7 @@ public class MainController {
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("registerForm", new RegisterForm());
-        return "register";
+        return "account/register";
     }
     @PostMapping("/register")
     public String register(
