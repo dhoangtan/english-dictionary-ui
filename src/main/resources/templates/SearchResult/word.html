@@ -17,23 +17,6 @@
             <h2><span class="fw-bold text-danger" th:text="${word.getWord()}"></span></h2>
             <hr>
             <h4><span th:text="'Phonetic:' + ' '+ ${word.getPhonetic()}"></span></h4>
-            <!--            <div class="section-title" th:each="phonetic: ${word.getPhonetics()}">-->
-
-            <!--                <div class="audio-1 d-inline-block fs-6">-->
-            <!--                    <span class="text-secondary" th:if="${phonetic.getLicense() != null}">-->
-            <!--                        <span class="text-success" th:text="' ' + ${phonetic.getLicense().getName()} + ' '"></span>-->
-            <!--                    </span>-->
-
-            <!--                    <i class="ri-volume-up-line fs-5 " onclick="return getElementById('audio-1').play();"-->
-            <!--                       style="cursor: pointer"></i>-->
-            <!--                    <audio id="audio-1" controls th:src="${phonetic.getAudio()}" hidden="hidden">-->
-            <!--                        Your browser does not support the-->
-            <!--                        <code>audio</code> element.-->
-            <!--                    </audio>-->
-            <!--                    <span class="text-secondary" th:text="${phonetic.getText()}"></span>-->
-            <!--                </div>-->
-            <!--                &lt;!&ndash;                <br>&ndash;&gt;-->
-            <!--            </div>-->
             <div class="container text-center w-25" th:each="phonetic,i: ${word.getPhonetics()}">
                 <div class="row">
                     <div class="col">
@@ -42,12 +25,6 @@
                         </span>
                     </div>
                     <div class="col">
-<!--                        <i class="ri-volume-up-line fs-5 "-->
-<!--                           th:onclick="'return getElementById(audio-'+${i.index} +').play();'"-->
-<!--                           style="cursor: pointer"></i>-->
-<!--                        <i class="ri-volume-up-line fs-5 " onclick="return getElementById('audio-0').play()"-->
-<!--                           style="cursor: pointer"></i>-->
-                        <!--                        <i class="ri-volume-up-line fs-5 " th:onclick="'return getElementById('audio-'+ ${i.index}).play();'" style="cursor: pointer"></i>-->
                         <i class="ri-volume-up-line fs-5" th:onclick="'document.getElementById(\'audio-'+${i.index} +'\').play();'" style="cursor: pointer"></i>
                         <audio th:id="'audio-'+${i.index}" controls th:src="${phonetic.getAudio()}" hidden="hidden">
                             Your browser does not support the
