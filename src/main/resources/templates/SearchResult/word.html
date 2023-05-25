@@ -14,9 +14,61 @@
 
         <div class="section-title">
             <br>
-            <h2>Meaning of <span class="fw-bold text-danger" th:text="${word.getWord()}"></span> in English</h2>
-            <h4>Phonetic: <span th:text="${word.getPhonetic()}"></span></h4>
+            <h2><span class="fw-bold text-danger" th:text="${word.getWord()}"></span></h2>
+            <hr>
+            <h4><span th:text="'Phonetic:' + ' '+ ${word.getPhonetic()}"></span></h4>
+            <!--            <div class="section-title" th:each="phonetic: ${word.getPhonetics()}">-->
+
+            <!--                <div class="audio-1 d-inline-block fs-6">-->
+            <!--                    <span class="text-secondary" th:if="${phonetic.getLicense() != null}">-->
+            <!--                        <span class="text-success" th:text="' ' + ${phonetic.getLicense().getName()} + ' '"></span>-->
+            <!--                    </span>-->
+
+            <!--                    <i class="ri-volume-up-line fs-5 " onclick="return getElementById('audio-1').play();"-->
+            <!--                       style="cursor: pointer"></i>-->
+            <!--                    <audio id="audio-1" controls th:src="${phonetic.getAudio()}" hidden="hidden">-->
+            <!--                        Your browser does not support the-->
+            <!--                        <code>audio</code> element.-->
+            <!--                    </audio>-->
+            <!--                    <span class="text-secondary" th:text="${phonetic.getText()}"></span>-->
+            <!--                </div>-->
+            <!--                &lt;!&ndash;                <br>&ndash;&gt;-->
+            <!--            </div>-->
+            <div class="container text-center w-25" th:each="phonetic,i: ${word.getPhonetics()}">
+                <div class="row">
+                    <div class="col">
+                        <span class="text-secondary" th:if="${phonetic.getLicense() != null}">
+                            <span class="text-success" th:text="' ' + ${phonetic.getLicense().getName()} + ' '"></span>
+                        </span>
+                    </div>
+                    <div class="col">
+<!--                        <i class="ri-volume-up-line fs-5 "-->
+<!--                           th:onclick="'return getElementById(audio-'+${i.index} +').play();'"-->
+<!--                           style="cursor: pointer"></i>-->
+<!--                        <i class="ri-volume-up-line fs-5 " onclick="return getElementById('audio-0').play()"-->
+<!--                           style="cursor: pointer"></i>-->
+                        <!--                        <i class="ri-volume-up-line fs-5 " th:onclick="'return getElementById('audio-'+ ${i.index}).play();'" style="cursor: pointer"></i>-->
+                        <i class="ri-volume-up-line fs-5" th:onclick="'document.getElementById(\'audio-'+${i.index} +'\').play();'" style="cursor: pointer"></i>
+                        <audio th:id="'audio-'+${i.index}" controls th:src="${phonetic.getAudio()}" hidden="hidden">
+                            Your browser does not support the
+                            <code>audio</code> element.
+                        </audio>
+                        <span class="text-secondary" th:text="${phonetic.getText()}"></span>
+                    </div>
+                </div>
+            </div>
         </div>
+        <div class="text-end">
+            <button class="btn btn-outline-primary">
+                <a>
+                    Add to word list
+                </a>
+            </button>
+            <div class="text-center">
+
+            </div>
+        </div>
+
         <hr class="my-4">
         <div class="section-title">
             <h4 class="text-primary">Meanings</h4>
@@ -25,30 +77,31 @@
         <div class="faq-list">
             <ul th:each="meaning,i : ${word.getMeanings()}">
                 <li data-aos="fade-up" class="aos-init aos-animate">
-                    <i class="bx bx-help-circle icon-help">
-
-                    </i> <a data-bs-toggle="collapse" class="collapse collapsed"
-                            th:data-bs-target="'#faq-list-'+ ${i.index}" aria-expanded="false">
-                    Part Of Speech:
-                    <span class="text-secondary" th:text=" ${meaning.getPartOfSpeech()}"></span>
-                    <i class="bx bx-chevron-down icon-show"></i><i
-                        class="bx bx-chevron-up icon-close"></i></a>
-                    <div th:id="'faq-list-'+ ${i.index}" class="collapse" data-bs-parent=".faq-list" style="">
-                        <p>
-                            Definition: <span class="text-secondary" th:text="${meaning.getDefinitions().get(0).getDefinition()}"></span>
+                    <i class="bx bx-help-circle icon-help"></i>
+                    <a data-bs-toggle="collapse" class="collapse collapsed fs-5"
+                       th:data-bs-target="'#faq-list-'+ ${i.index}" aria-expanded="false">
+                        Part Of Speech:
+                        <span class="text-secondary" th:text=" ${meaning.getPartOfSpeech()}"></span>
+                        <i class="bx bx-chevron-down icon-show"></i>
+                        <i class="bx bx-chevron-up icon-close"></i>
+                    </a>
+                    <div th:id="'faq-list-'+ ${i.index}" class="collapse" data-bs-parent=".faq-list">
+                        <p class="fs-5 px-5">
+                            Definition: <span class="text-secondary"
+                                              th:text="${meaning.getDefinitions().get(0).getDefinition()}"></span>
                         </p>
-                        <p>
-                            Example: <span class="text-secondary" th:text="${meaning.getDefinitions().get(0).getExample()}"></span>
+                        <p class="fs-5 px-5">
+                            Example: <span class="text-secondary"
+                                           th:text="${meaning.getDefinitions().get(0).getExample()}"></span>
                         </p>
+                        <br>
                     </div>
                 </li>
-
             </ul>
         </div>
         <hr class="my-2">
     </div>
 </section>
-
 
 <th:block th:replace="~{layout :: footer}"></th:block>
 <th:block th:replace="~{layout :: script-js}"></th:block>
