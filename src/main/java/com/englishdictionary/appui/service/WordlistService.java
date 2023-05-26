@@ -1,6 +1,7 @@
 package com.englishdictionary.appui.service;
 
 import com.englishdictionary.appui.dto.AddWordToWordlistForm;
+import com.englishdictionary.appui.dto.Word;
 import com.englishdictionary.appui.dto.WordlistForm;
 import com.englishdictionary.appui.models.Wordlist;
 import com.google.gson.Gson;
@@ -17,14 +18,24 @@ public class WordlistService {
     private final String Port = "4040";
     // lấy tất cả system wordlist
     public List<Wordlist> defaultWordList() {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:"+Port+"/api/wordlist/default";
-        List<Wordlist> wordList = restTemplate.getForObject(url, List.class);
+//        RestTemplate restTemplate = new RestTemplate();
+//        String url = "http://localhost:"+Port+"/api/wordlists/default";
+//        String wordList = restTemplate.getForObject(url, String.class);
+//
+//        JSONObject jsonObject = new JSONObject(wordList.substring(1, wordList.length()-1));
+//        Gson gson = new Gson();
+//        List<Wordlist> list = gson.fromJson(jsonObject.toString(), List.class);
+//        return list==null ? null:list;
 
-        JSONObject jsonObject = new JSONObject(wordList);
+
+
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:4040/api/wordlists/default";
+        String getWordlist = restTemplate.getForObject(url,String.class);
+
         Gson gson = new Gson();
-        wordList = gson.fromJson(jsonObject.toString(), List.class);
-        return wordList==null ? null:wordList;
+        List<Wordlist> wordlist = gson.fromJson(getWordlist, List.class);
+        return wordlist;
     }
 
     // lấy tất cả word của wordlist

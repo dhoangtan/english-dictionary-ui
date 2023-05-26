@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,12 +44,18 @@ public class WordController {
         }
     }
 
-    @GetMapping("/wordlist/default")
+    @GetMapping("/wordlists/default")
     public String defaultWordList(
             Model model
     ) {
         try {
             List<Wordlist> wordList = wordlistService.defaultWordList();
+//            List<Wordlist> wordList = new ArrayList<>();
+//            wordList.add(new Wordlist("1", "1", "1", new ArrayList<>()));
+//            wordList.add(new Wordlist());
+//            wordList.add(new Wordlist());
+//            wordList.add(new Wordlist());
+//            wordList.add(new Wordlist());
             model.addAttribute("wordList", wordList);
             return "WordList/wordlist";
         }
