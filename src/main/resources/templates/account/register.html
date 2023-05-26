@@ -1,10 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Login</title>
+    <th:block th:replace="~{layout :: link-css}"></th:block>
 </head>
 <body>
 
+<div class="container2 right-panel-active" id="container2">
+    <div class="form-container register-container">
+        <div class="form1">
+            <form action="#">
+                <h1>Register</h1>
+                <input type="text" placeholder="Name" />
+                <input type="email" placeholder="Email" />
+                <input type="password" placeholder="Password" />
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+    <div class="form-container login-container">
+        <div class="form1">
+            <h1>Login</h1>
+            <br />
+            <span class="loader"></span>
+        </div>
+
+    </div>
+    <div class="overlay-container">
+        <div class="overlay" th:style="'background-image: url(/image/login/login.gif)'">
+            <div class="overlay-panel overlay-left">
+                <h1 class="title">
+                    Hello <br />
+                    friends
+                </h1>
+                <p>If your have an account, login here and have fun</p>
+                <button class="ghost" id="login" onclick="action()">
+                    Login <i class="lni lni-arrow-left login"></i>
+                </button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1 class="title">
+                    Start your <br />
+                    journey now
+                </h1>
+                <p>
+                    If you don't have an account yet, join us and start your journey.
+                </p>
+                <button class="ghost" id="register">
+                    Register <i class="lni lni-arrow-right register"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{layout :: script-js}"></th:block>
+
+<script th:src="@{/js/script-login.js}"></script>
+<link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+<link rel="stylesheet" th:href="@{/css/style-login.css}" />
+<script>
+    function action(){
+         setTimeout(function () {window.location.href="/login"; }, 1000);
+    }
+</script>
 </body>
 </html>
