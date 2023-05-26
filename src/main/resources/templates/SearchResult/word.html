@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>English Dictionary</title>
+    <th:block th:replace="~{layout :: link-css}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{layout :: header}"></th:block>
+
+
+<section id="faq" class="faq section-bg">
+    <div class="container aos-init aos-animate" data-aos="fade-up">
+
+        <div class="section-title">
+            <br>
+            <h2><span class="fw-bold text-danger" th:text="${word.getWord()}"></span></h2>
+            <hr>
+            <h4><span th:text="'Phonetic:' + ' '+ ${word.getPhonetic()}"></span></h4>
+            <div class="container text-center w-25" th:each="phonetic,i: ${word.getPhonetics()}">
+                <div class="row">
+                    <div class="col">
+                        <span class="text-secondary" th:if="${phonetic.getLicense() != null}">
+                            <span class="text-success" th:text="' ' + ${phonetic.getLicense().getName()} + ' '"></span>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <i class="ri-volume-up-line fs-5" th:onclick="'document.getElementById(\'audio-'+${i.index} +'\').play();'" style="cursor: pointer"></i>
+                        <audio th:id="'audio-'+${i.index}" controls th:src="${phonetic.getAudio()}" hidden="hidden">
+                            Your browser does not support the
+                            <code>audio</code> element.
+                        </audio>
+                        <span class="text-secondary" th:text="${phonetic.getText()}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-end">
+            <button class="btn btn-outline-primary">
+                <a>
+                    Add to word list
+                </a>
+            </button>
+            <div class="text-center">
+
+            </div>
+        </div>
+
+        <hr class="my-4">
+        <div class="section-title">
+            <h4 class="text-primary">Meanings</h4>
+        </div>
+
+        <div class="faq-list">
+            <ul th:each="meaning,i : ${word.getMeanings()}">
+                <li data-aos="fade-up" class="aos-init aos-animate">
+                    <i class="bx bx-help-circle icon-help"></i>
+                    <a data-bs-toggle="collapse" class="collapse collapsed fs-5"
+                       th:data-bs-target="'#faq-list-'+ ${i.index}" aria-expanded="false">
+                        Part Of Speech:
+                        <span class="text-secondary" th:text=" ${meaning.getPartOfSpeech()}"></span>
+                        <i class="bx bx-chevron-down icon-show"></i>
+                        <i class="bx bx-chevron-up icon-close"></i>
+                    </a>
+                    <div th:id="'faq-list-'+ ${i.index}" class="collapse" data-bs-parent=".faq-list">
+                        <p class="fs-5 px-5">
+                            Definition: <span class="text-secondary"
+                                              th:text="${meaning.getDefinitions().get(0).getDefinition()}"></span>
+                        </p>
+                        <p class="fs-5 px-5">
+                            Example: <span class="text-secondary"
+                                           th:text="${meaning.getDefinitions().get(0).getExample()}"></span>
+                        </p>
+                        <br>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <hr class="my-2">
+    </div>
+</section>
+
+<th:block th:replace="~{layout :: footer}"></th:block>
+<th:block th:replace="~{layout :: script-js}"></th:block>
+</body>
+</html>

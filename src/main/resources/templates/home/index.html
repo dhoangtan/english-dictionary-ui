@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>English Dictionary</title>
+    <th:block th:replace="~{layout :: link-css}"></th:block>
+
+</head>
+<body>
+<th:block th:replace="~{layout :: header}"></th:block>
+
+<section class="d-flex align-items-center">
+    <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+        <div class="row justify-content-center">
+            <form th:action="@{/word}" class="input-group mb-3 w-75" method="get">
+                <div class="input-group">
+                    <select class="form-control fs-5" id="exampleFormControlSelect1">
+                        <option class="form-control text-center">word</option>
+<!--                        <option class="form-control text-center">Word list mặc định 1</option>-->
+<!--                        <option class="form-control text-center">Word list mặc định 2</option>-->
+<!--                        <option class="form-control text-center">Word list mặc định 3</option>-->
+<!--                        <option class="form-control text-center">Word list cá nhân 1</option>-->
+<!--                        <option class="form-control text-center">Word list cá nhân 2</option>-->
+<!--                        <option class="form-control text-center">Word list cá nhân 3</option>-->
+                    </select>
+                    <input name="word" type="search" class="form-control rounded w-50 fs-5" placeholder="Search for any word or phrase..." aria-label="Search"
+                           aria-describedby="search-addon"/>
+                    <button type="submit" class="btn btn-outline-primary fs-5">search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+        <div class="row justify-content-center">
+            <div class="col-xl-7 col-lg-9 text-center">
+                <h1>English Dictionary</h1>
+                <h2>The website provides quality dictionaries</h2>
+                <h2 class="text-primary">Join our courses</h2>
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="#about" class="btn-get-started scrollto">Get Started</a>
+        </div>
+
+        <div class="row icon-boxes">
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in"
+                 data-aos-delay="200">
+                <div class="icon-box">
+                    <div class="icon"><i class="ri-stack-line"></i></div>
+                    <h4 class="title"><a href="">Join the course</a></h4>
+                    <p class="description">Hurry up and join the course to improve your knowledge</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in"
+                 data-aos-delay="300">
+                <div class="icon-box">
+                    <div class="icon"><i class="ri-book-line"></i></div>
+                    <h4 class="title"><a href="">Word List</a></h4>
+                    <p class="description">Create your own vocabulary list to practice</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in"
+                 data-aos-delay="400">
+                <div class="icon-box">
+                    <div class="icon"><i class="ri-bank-card-line"></i></div>
+                    <h4 class="title"><a href="">Let's practice English together</a></h4>
+                    <p class="description">English vocabulary list easy to learn</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in"
+                 data-aos-delay="500">
+                <div class="icon-box">
+                    <div class="icon"><i class="ri-pencil-ruler-line"></i></div>
+                    <h4 class="title"><a href="">Exercise</a></h4>
+                    <p class="description">Let's practice English together</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section><!-- End Hero -->
+
+
+
+
+
+<th:block th:replace="~{layout :: footer}"></th:block>
+<th:block th:replace="~{layout :: script-js}"></th:block>
+</body>
+</html>
