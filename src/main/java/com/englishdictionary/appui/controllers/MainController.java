@@ -41,8 +41,9 @@ public class MainController {
             try {
                 String userId = userService.getUserId(loginForm);
                 HttpSession session = request.getSession();
-                session.setMaxInactiveInterval(10);
+                session.setMaxInactiveInterval(60*60);
                 session.setAttribute("userId", userId);
+                session.setAttribute("userName", loginForm.getEmail());
                 return "redirect:/";
             }catch (Exception e){
                 return "redirect:/login";
