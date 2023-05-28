@@ -4,8 +4,11 @@ import com.englishdictionary.appui.dto.Word;
 import com.englishdictionary.appui.models.Wordlist;
 import com.englishdictionary.appui.service.WordlistService;
 import com.google.gson.Gson;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,5 +49,25 @@ public class TestController {
         Gson gson = new Gson();
         List<Wordlist> wordlist = gson.fromJson(jsonObject.toString(), List.class);
         return getWordlist.toString();
+    }
+    @GetMapping("/test6")
+    public String test6(
+            HttpServletRequest request
+    ) {
+        try {
+            return request.getSession().getAttribute("userId").toString();
+        }
+        catch (Exception e) {
+            return "Session times out";
+        }
+    }
+    @GetMapping("/test7")
+    @ResponseBody
+    public String test7(
+            HttpServletRequest request
+    ) {
+        String userId = request.getSession().getAttribute("userId").toString();
+        List<Wordlist> wordlistForm = wordlistService.getAllUserWordList(userId);
+        return wordlistForm.toString();
     }
 }

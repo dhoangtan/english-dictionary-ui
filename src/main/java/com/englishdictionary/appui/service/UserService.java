@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 public class UserService {
     private final String Port = "4040";
 
-    public User user(
+    public User getUser(
             @PathVariable("loginForm") @NonNull LoginForm loginForm
     ) {
 
@@ -26,17 +26,13 @@ public class UserService {
         User user = restTemplate.getForObject(url, User.class);
         return user;
     }
-    public String getUser(
+    public String getUserId(
             @PathVariable("loginForm") @NonNull LoginForm loginForm
     ) {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        // request body parameters
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("email", loginForm.getEmail());
-//        jsonObject.put("password", loginForm.getPassword());
 
         HttpEntity<LoginForm> request = new HttpEntity<>(loginForm, headers);
         String url = "http://localhost:" + Port + "/api/user/";

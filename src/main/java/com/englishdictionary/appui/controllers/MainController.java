@@ -4,7 +4,10 @@ import com.englishdictionary.appui.dto.LoginForm;
 import com.englishdictionary.appui.dto.RegisterForm;
 import com.englishdictionary.appui.service.UserService;
 import com.englishdictionary.appui.service.WordService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +20,9 @@ public class MainController {
     @Autowired
     UserService userService;
     @GetMapping
-    public String index() {
+    public String index(
+            HttpSession session
+    ) {
         return "home/index";
     }
 
@@ -28,11 +33,21 @@ public class MainController {
     }
     @PostMapping("/login")
     public String login(
-            @ModelAttribute("loginForm") LoginForm loginForm
+            @ModelAttribute("loginForm") LoginForm loginForm,
+            HttpServletRequest request
     )
     {
-        if (userService.getUser(loginForm) != null) {
-            return "redirect:/";
+        if (userService.getUserId(loginForm) != null) {
+            try {
+                String userId = userService.getUserId(loginForm);
+                HttpSession session = request.getSession();
+                session.setMaxInactiveInterval(10);
+                session.setAttribute("userId", userId);
+                return "redirect:/";
+            }catch (Exception e){
+                return "redirect:/login";
+            }
+
         }
         else {
             return "redirect:/login";
@@ -51,6 +66,16 @@ public class MainController {
         return "redirect:/index";
     }
 
+    public String logout(
+            HttpSession session
+    ) {
+        session.removeAttribute("userId");
+        return "redirect:/";
+    }
+    @ModelAttribute("userId")
+    public String getUserId(HttpSession session) {
+        return (String) session.getAttribute("userId");
+    }
 
 
 }

@@ -1,12 +1,15 @@
 package com.englishdictionary.appui.service;
 
 import com.englishdictionary.appui.dto.AddWordToWordlistForm;
+import com.englishdictionary.appui.dto.CreateWordlistForm;
 import com.englishdictionary.appui.dto.Word;
 import com.englishdictionary.appui.dto.WordlistForm;
 import com.englishdictionary.appui.models.Wordlist;
 import com.google.gson.Gson;
 import org.json.JSONObject;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,17 +21,6 @@ public class WordlistService {
     private final String Port = "4040";
     // lấy tất cả system wordlist
     public List<Wordlist> defaultWordList() {
-//        RestTemplate restTemplate = new RestTemplate();
-//        String url = "http://localhost:"+Port+"/api/wordlists/default";
-//        String wordList = restTemplate.getForObject(url, String.class);
-//
-//        JSONObject jsonObject = new JSONObject(wordList.substring(1, wordList.length()-1));
-//        Gson gson = new Gson();
-//        List<Wordlist> list = gson.fromJson(jsonObject.toString(), List.class);
-//        return list==null ? null:list;
-
-
-
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://localhost:4040/api/wordlists/default";
         String getWordlist = restTemplate.getForObject(url,String.class);
@@ -52,40 +44,28 @@ public class WordlistService {
     }
 
     // lấy tất cả wordlist của user
-    public List<Wordlist> getUserWordList(String userId, String wordlistIdId) {
+    public List<Wordlist> getAllUserWordList(String userId) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:"+Port+"/api/wordlist/{userId}/{wordlistId}";
+        String url = "http://localhost:"+Port+"/api/wordlists/{userId}";
 
-        Map<String, String> params = Map.of("userId",userId,"wordlistId",wordlistIdId);
+        Map<String, String> params = Map.of("userId",userId);
+        String wordList = restTemplate.getForObject(url, String.class, params);
 
-        List<Wordlist> wordList = restTemplate.getForObject(url, List.class, params);
-
-        JSONObject jsonObject = new JSONObject(wordList);
         Gson gson = new Gson();
-        wordList = gson.fromJson(jsonObject.toString(), List.class);
-
-        return wordList==null ? null:wordList;
+        List<Wordlist> wordlist = gson.fromJson(wordList, List.class);
+        return wordlist==null ? null: wordlist;
     }
 
-    public void createWordList(WordlistForm wordlistForm) {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:"+Port+"/api/wordlists?name={name}&userId={user_id}";
-        Map<String, String> params = Map.of("name",wordlistForm.getName(),"user_id",wordlistForm.getUserId());
-        restTemplate.postForObject(url, wordlistForm, WordlistForm.class, params);
-    }
-
-    //test create wordlist form json object
-    public void createWordListJson(WordlistForm wordlistForm) {
+    // create new wordlist
+    public void createWordList(CreateWordlistForm wordlistForm) {
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://localhost:"+Port+"/api/wordlists";
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
+//        headers.set("Content-Type", "application/json");
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name", wordlistForm.getName());
-        jsonObject.put("userId", wordlistForm.getUserId());
-
-        restTemplate.postForObject(url, jsonObject, JSONObject.class);
+        HttpEntity<CreateWordlistForm> request = new HttpEntity<>(wordlistForm, headers);
+        restTemplate.postForObject(url, request, CreateWordlistForm.class);
     }
 
     // Add word to wordlist
