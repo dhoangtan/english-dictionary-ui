@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Register</title>
     <th:block th:replace="~{layout :: link-css}"></th:block>
 </head>
 <body>
@@ -10,11 +10,41 @@
 <div class="container2 right-panel-active" id="container2">
     <div class="form-container register-container">
         <div class="form1">
-            <form action="#">
+            <form th:action="@{/register}" method="post" th:object="${registerForm}">
                 <h1>Register</h1>
-                <input type="text" placeholder="Name" />
-                <input type="email" placeholder="Email" />
-                <input type="password" placeholder="Password" />
+                <input type="text" placeholder="Name" th:field="*{fullName}"/>
+                <input type="email" th:field="*{email}" placeholder="Email" />
+                <input type="password" placeholder="Password" th:field="*{password}"/>
+                <!--<input type="number" placeholder="Gender" th:field="*{gender}"/>
+                <input type="number" placeholder="Level" th:field="*{level}"/>
+                <input type="number" placeholder="Occupation" th:field="*{occupation}"/>-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Gender</label>
+                    <select class="form-select" id="inputGroupSelect01" name="gender">
+                        <option selected>Choose...</option>
+                        <option th:value="1">Male</option>
+                        <option th:value="2">Female</option>
+                        <option th:value="3">Other</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect02">Level</label>
+                    <select class="form-select" id="inputGroupSelect02" name="level">
+                        <option selected>Choose...</option>
+                        <option th:value="1">Beginner</option>
+                        <option th:value="2">Intermediate</option>
+                        <option th:value="3">Advanced</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect03">Occupation</label>
+                    <select class="form-select" id="inputGroupSelect03" name="occupation">
+                        <option selected>Choose...</option>
+                        <option th:value="1">Advanced</option>
+                        <option th:value="2">Teacher</option>
+                        <option th:value="3">Business</option>
+                    </select>
+                </div>
                 <button type="submit">Register</button>
             </form>
         </div>

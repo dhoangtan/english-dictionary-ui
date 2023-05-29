@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>$Title$</title>
+  <th:block th:replace="~{layout :: link-css}"></th:block>
+</head>
+<body>
+<div class='container'>
+  <div class='row'>
+    <div class="flip-card-3D-wrapper col-md-4">
+      <div class="flip-card">
+        <div class="flip-card-front">
+          <div class='card-img'><img th:src="@{/image/login/login.gif}"></div>
+          <div class='card-body'>
+            <h4 class="text-center">Card title</h4>
+            <p>A quick description of the front item</p>
+            <button class="flip-card-btn-turn-to-back">More info</button>
+          </div>
+        </div>
+        <div class="flip-card-back">
+          <div class='card-body'>
+            <h4 class="text-center">More info</h4>
+            <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <ul>
+              <li> Item 01 </li>
+              <li> Item 02 </li>
+              <li> Item 03 </li>
+            </ul>
+            <button class="flip-card-btn-turn-to-front">flip</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card-3D-wrapper col-md-4">
+      <div class="flip-card">
+        <div class="flip-card-front">
+          <img  th:src="@{/image/login/login.gif}">
+          <div class='card-body'>
+            <h4 class="text-center">Card title</h4>
+            <p>A quick description of the front item</p>
+            <button class="flip-card-btn-turn-to-back">More info</button>
+          </div>
+        </div>
+        <div class="flip-card-back">
+          <div class='card-body'>
+            <h4 class="text-center">More info</h4>
+            <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <ul>
+              <li> Item 01 </li>
+              <li> Item 02 </li>
+              <li> Item 03 </li>
+            </ul>
+            <button class="flip-card-btn-turn-to-front">flip</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card-3D-wrapper col-md-4">
+      <div class="flip-card">
+        <div class="flip-card-front">
+          <img  th:src="@{/image/login/login.gif}" >
+          <div class='card-body'>
+            <h4 class="text-center">Card title</h4>
+            <p>A quick description of the front item</p>
+            <button class="flip-card-btn-turn-to-back">More info</button>
+          </div>
+        </div>
+        <div class="flip-card-back">
+          <div class='card-body'>
+            <h4 class="text-center">More info</h4>
+            <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <ul>
+              <li> Item 01 </li>
+              <li> Item 02 </li>
+              <li> Item 03 </li>
+            </ul>
+            <button class="flip-card-btn-turn-to-front">flip</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+<link rel="stylesheet" th:href="@{/css/style-flipcard.css}" />
+<script th:src="@{/js/script-flipcard.js}"></script>
+</html>

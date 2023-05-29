@@ -64,7 +64,10 @@ public class MainController {
             @ModelAttribute("registerForm") RegisterForm registerForm
     )
     {
-        return "redirect:/index";
+        if(userService.Register(registerForm)!= null){
+            return "redirect:/login";
+        }
+        return "redirect:/register";
     }
 
     public String logout(

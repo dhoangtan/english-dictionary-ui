@@ -1,6 +1,7 @@
 package com.englishdictionary.appui.service;
 
 import com.englishdictionary.appui.dto.LoginForm;
+import com.englishdictionary.appui.dto.RegisterForm;
 import com.englishdictionary.appui.models.User;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -40,11 +41,17 @@ public class UserService {
         return user;
     }
 
-    public void Register(
-            @PathVariable("registerForm") @NonNull LoginForm registerForm
-    ) {
+    public String Register(@PathVariable("registerForm") @NonNull RegisterForm registerForm) {
+        try {
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:" + Port + "/api/user/register";
-        restTemplate.postForObject(url, registerForm, LoginForm.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<RegisterForm> request = new HttpEntity<>(registerForm, headers);
+        String url = "http://localhost:" + Port + "/api/user/new";
+        String user = restTemplate.postForObject(url, request,String.class);
+        return user;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
