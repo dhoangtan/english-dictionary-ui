@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RequestMapping("/")
 @Controller
 public class MainController {
@@ -35,8 +37,7 @@ public class MainController {
     public String login(
             @ModelAttribute("loginForm") LoginForm loginForm,
             HttpServletRequest request
-    )
-    {
+    ) throws IOException {
         if (userService.getUserId(loginForm) != null) {
             try {
                 String userId = userService.getUserId(loginForm);
