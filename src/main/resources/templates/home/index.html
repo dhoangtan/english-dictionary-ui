@@ -14,15 +14,6 @@
         <div class="row justify-content-center">
             <form th:action="@{/word}" class="input-group mb-3 w-75" method="get">
                 <div class="input-group">
-                    <select class="form-control fs-5" id="exampleFormControlSelect1">
-                        <option class="form-control text-center">word</option>
-<!--                        <option class="form-control text-center">Word list mặc định 1</option>-->
-<!--                        <option class="form-control text-center">Word list mặc định 2</option>-->
-<!--                        <option class="form-control text-center">Word list mặc định 3</option>-->
-<!--                        <option class="form-control text-center">Word list cá nhân 1</option>-->
-<!--                        <option class="form-control text-center">Word list cá nhân 2</option>-->
-<!--                        <option class="form-control text-center">Word list cá nhân 3</option>-->
-                    </select>
                     <input name="word" type="search" class="form-control rounded w-50 fs-5" placeholder="Search for any word or phrase..." aria-label="Search"
                            aria-describedby="search-addon"/>
                     <button type="submit" class="btn btn-outline-primary fs-5">search</button>
@@ -42,7 +33,7 @@
             </div>
         </div>
         <div class="text-center">
-            <a href="#about" class="btn-get-started scrollto">Get Started</a>
+            <a href="#about" class="btn-get-started scrollto" onclick="return alert('Chức năng đang cập nhật')">Get Started</a>
         </div>
 
         <div class="row icon-boxes">

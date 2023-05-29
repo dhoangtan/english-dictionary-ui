@@ -5,27 +5,30 @@
     <title>English Dictionary</title>
 
     <!-- Favicons -->
-    <link th:fragment="link-css"  th:href="@{/img/favicon.png}" rel="icon">
-    <link th:fragment="link-css"  th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+    <link th:fragment="link-css" th:href="@{/img/favicon.png}" rel="icon">
+    <link th:fragment="link-css" th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
-    <link th:fragment="link-css" th:href="@{https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i}"
+    <link th:fragment="link-css"
+          th:href="@{https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i}"
           rel="stylesheet">
 
     <!-- Static CSS Files -->
     <link th:fragment="link-css" rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
-    <link th:fragment="link-css"  rel="stylesheet" th:href="@{/bootstrap-icons/bootstrap-icons.css}">
-    <link th:fragment="link-css"  rel="stylesheet" th:href="@{/css/styles.css}">
-    <link th:fragment="link-css"  rel="stylesheet" th:href="@{/aos/aos.css}">
-    <link th:fragment="link-css"  rel="stylesheet" th:href="@{/boxicons/css/boxicons.min.css}">
-    <link th:fragment="link-css"  rel="stylesheet" th:href="@{/glightbox/css/glightbox.min.css}">
-    <link th:fragment="link-css"  rel="stylesheet" th:href="@{/remixicon/remixicon.css}">
-    <link th:fragment="link-css"  rel="stylesheet" th:href="@{/swiper/swiper-bundle.min.css}">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/bootstrap-icons/bootstrap-icons.css}">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/css/styles.css}">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/aos/aos.css}">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/boxicons/css/boxicons.min.css}">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/glightbox/css/glightbox.min.css}">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/remixicon/remixicon.css}">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/swiper/swiper-bundle.min.css}">
 
     <!-- Template Main CSS File -->
-    <link th:fragment="link-css"  th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:fragment="link-css" th:href="@{/css/style.css}" rel="stylesheet">
 
-
+    <!-- =======================================================-->
+    <link th:fragment="link-css-test" rel="stylesheet" th:href="@{/css/styles.css}">
+    <link>
 </head>
 <body>
 <!-- ======= Header ======= -->
@@ -36,11 +39,28 @@
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-                <li><a class="nav-link scrollto" href="#services">Explore</a></li>
-                <li><a class="nav-link scrollto o" href="#portfolio">My Word List</a></li>
-                <li><a class="nav-link scrollto" href="#team">Exercises</a></li>
-                <li><a class="nav-link scrollto" href="#pricing">Exams</a></li>
+                <li onclick="return window.location.href = '/';"
+                    style="cursor: pointer"><a class="nav-link scrollto active">Home</a></li>
+                <li><a class="nav-link scrollto" href="#Explore">Explore</a></li>
+                <li class="dropdown">
+                    <a href="#">
+                        <span>Wordlists</span>
+                        <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li onclick="return window.location.href = '/wordlist/default';"
+                            style="cursor: pointer"><a>System Wordlists</a></li>
+                        <li onclick="return window.location.href = '/user/wordlist';"
+                        style="cursor: pointer"><a href="#">My Wordlists</a></li>
+                        <li onclick="return window.location.href = '/wordlist/new';"
+                            style="cursor: pointer">
+                            <a>Add New Wordlist</a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li><a class="nav-link scrollto" href="#Exercises">Exercises</a></li>
+                <li><a class="nav-link scrollto" href="#courses">Courses</a></li>
+                <li><a class="nav-link scrollto" href="#Exams">Exams</a></li>
                 <li><a class="nav-link scrollto" href="#about">About</a></li>
                 <li class="dropdown"><a href="#"><span>Account</span> <i class="bi bi-chevron-down"></i></a>
                     <ul>
@@ -59,8 +79,7 @@
                         <li><a href="#">Drop Down 4</a></li>
                     </ul>
                 </li>
-                <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-                <li><a class="getstarted scrollto" href="#about">Get Started</a></li>
+                <li><a class="getstarted scrollto">Get Started</a></li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->

@@ -1,8 +1,7 @@
 package com.englishdictionary.appui.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,4 +24,5 @@ public class Wordlist {
         hashMap.put("words", words);
         return hashMap;
     }
+
 }
