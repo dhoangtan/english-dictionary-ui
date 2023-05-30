@@ -44,6 +44,7 @@ public class WordlistController {
             List<Wordlist> wordlistForm = service.getAllUserWordList(userId);
             model.addAttribute("wordList", wordlistForm);
             model.addAttribute("createWordlistForm", new CreateWordlistForm("", userId));
+            model.addAttribute("wordlistForm", new WordlistForm());
             return "WordList/userWordlist";
         }
     }
@@ -104,8 +105,28 @@ public class WordlistController {
     }
 
     // fliping card
-    @GetMapping("/wordlist/flip")
-    public String card() {
+    @GetMapping("/wordlist/flip/{wordlistId}")
+    public String card(
+            HttpServletRequest request,
+            Model model,
+            @PathVariable String wordlistId)
+    {
+
+
+        try{
+            String userId = request.getSession().getAttribute("userId").toString();
+            if(userId == null) {
+                return "redirect:/login";
+            }
+            else {
+                WordlistForm wordlist = service.getWordlistById(userId, wordlistId);
+                model.addAttribute("wordlist", wordlist);
+
+                return "card/flipCard";
+            }
+        }catch (Exception e) {
+//            return "redirect:/user/wordlist";
+        }
         return "card/flipCard";
     }
 

@@ -104,4 +104,14 @@ public class WordlistService {
         jsonObject.put("name", name);
         restTemplate.put(url, jsonObject, JSONObject.class);
     }
+    // lấy ra wordlist của user theo id wordlist
+    public WordlistForm getWordlistById(String userId, String wordlistId) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:"+Port+"/api/wordlists/{userId}/{wordlistId}";
+        Map<String, String> params = Map.of("userId",userId,"wordlistId",wordlistId);
+        String wordlist = restTemplate.getForObject(url, String.class, params);
+        Gson gson = new Gson();
+        WordlistForm wordlistForm = gson.fromJson(wordlist, WordlistForm.class);
+        return wordlistForm == null ? null : wordlistForm;
+    }
 }
