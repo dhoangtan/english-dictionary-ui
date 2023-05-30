@@ -5,7 +5,7 @@ import com.englishdictionary.appui.dto.RegisterForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 public class tessttt {
     @PostMapping("/test8")
     @ResponseBody

@@ -14,30 +14,32 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 
+
 @Service
 public class UserService {
     private final String Port = "4040";
 
     public User getUser(
-            @PathVariable("loginForm") @NonNull LoginForm loginForm) {
+            @PathVariable("loginForm") @NonNull LoginForm loginForm
+    ) {
 
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost/:" + Port + "/api/user/" + loginForm.getEmail() + "/" + loginForm.getPassword();
+        String url = "http://localhost:" + Port + "/api/user/" + loginForm.getEmail() + "/" + loginForm.getPassword();
         User user = restTemplate.getForObject(url, User.class);
         return user;
     }
-
     public String getUserId(
-            @PathVariable("loginForm") @NonNull LoginForm loginForm) throws IOException {
+            @PathVariable("loginForm") @NonNull LoginForm loginForm
+    ) throws IOException {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<LoginForm> request = new HttpEntity<>(loginForm, headers);
-        String url = "http://localhost/:" + Port + "/api/user/";
-        String user = restTemplate.postForObject(url, request, String.class);
-        return user == null ? null : user;
+        String url = "http://localhost:" + Port + "/api/user/";
+        String user = restTemplate.postForObject(url, request,String.class);
+        return user==null?null:user;
     }
 
     public String Register(@PathVariable("registerForm") @NonNull RegisterForm registerForm) {
