@@ -10,9 +10,11 @@ import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +59,7 @@ public class WordlistService {
     }
 
     // create new wordlist
-    public void createWordList(CreateWordlistForm wordlistForm) {
+    public ResponseEntity<String> createWordList(CreateWordlistForm wordlistForm) {
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://localhost:"+Port+"/api/wordlists";
         HttpHeaders headers = new HttpHeaders();
@@ -65,22 +67,11 @@ public class WordlistService {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<CreateWordlistForm> request = new HttpEntity<>(wordlistForm, headers);
-        restTemplate.postForObject(url, request, CreateWordlistForm.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+        return response;
     }
 
-    // Add word to wordlist
-    public void addWordToWordlist(AddWordToWordlistForm addWordToWordlistForm) {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:"+Port+"/api/wordlists/word";
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("wordlistId", addWordToWordlistForm.getWordlistId());
-        jsonObject.put("word", addWordToWordlistForm.getWord());
-
-        restTemplate.postForObject(url, jsonObject, JSONObject.class);
-    }
     // Delete word from wordlist
     public void deleteWordlist(String id) {
         RestTemplate restTemplate = new RestTemplate();
@@ -88,13 +79,7 @@ public class WordlistService {
         Map<String, String> params = Map.of("id",id);
         restTemplate.delete(url, params);
     }
-    // Remove word from wordlist
-    public void removeWordFromWordlist(String wordlistId, String wordId) {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:"+Port+"/api/wordlists/{wordlistId}/word/{id}";
-        Map<String, String> params = Map.of("wordlistId",wordlistId,"id",wordId);
-        restTemplate.delete(url, params);
-    }
+
     // Rename wordlist
     public void renameWordlist(String id, String name) {
         RestTemplate restTemplate = new RestTemplate();
@@ -114,4 +99,5 @@ public class WordlistService {
         WordlistForm wordlistForm = gson.fromJson(wordlist, WordlistForm.class);
         return wordlistForm == null ? null : wordlistForm;
     }
+
 }

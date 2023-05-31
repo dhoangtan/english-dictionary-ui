@@ -7,7 +7,9 @@ import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -28,7 +30,8 @@ public class UserService {
         User user = restTemplate.getForObject(url, User.class);
         return user;
     }
-    public String getUserId(
+    // Lấy ra userId từ email và password
+    public ResponseEntity<String> getUserId(
             @PathVariable("loginForm") @NonNull LoginForm loginForm
     ) throws IOException {
 
@@ -38,19 +41,19 @@ public class UserService {
 
         HttpEntity<LoginForm> request = new HttpEntity<>(loginForm, headers);
         String url = "http://localhost:" + Port + "/api/user/";
-        String user = restTemplate.postForObject(url, request,String.class);
-        return user==null?null:user;
+        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+        return response;
     }
 
-    public String Register(@PathVariable("registerForm") @NonNull RegisterForm registerForm) {
+    public ResponseEntity<String> Register(@PathVariable("registerForm") @NonNull RegisterForm registerForm) {
         try {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<RegisterForm> request = new HttpEntity<>(registerForm, headers);
             String url = "http://localhost/:" + Port + "/api/user/new";
-            String user = restTemplate.postForObject(url, request, String.class);
-            return user;
+            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+            return response;
         } catch (Exception e) {
             return null;
         }

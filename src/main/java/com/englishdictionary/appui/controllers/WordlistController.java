@@ -6,16 +6,21 @@ import com.englishdictionary.appui.models.Wordlist;
 import com.englishdictionary.appui.service.WordlistService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 public class WordlistController {
     @Autowired
     private WordlistService service;
+    private final Logger logger = Logger.getLogger("com.englishdictionary.appui.controllers.WordlistController");
 
     // lấy ra danh sách wordlist mặc định
     // đã có ui
@@ -45,6 +50,7 @@ public class WordlistController {
             model.addAttribute("wordList", wordlistForm);
             model.addAttribute("createWordlistForm", new CreateWordlistForm("", userId));
             model.addAttribute("wordlistForm", new WordlistForm());
+            model.addAttribute("message", "hello");
             return "WordList/userWordlist";
         }
     }
@@ -73,17 +79,43 @@ public class WordlistController {
     @PostMapping("/wordlist/new")
     public String newWordlist(
             HttpServletRequest request,
-            @ModelAttribute("createWordlistForm") CreateWordlistForm createWordlistForm) {
+            @ModelAttribute("createWordlistForm") CreateWordlistForm createWordlistForm,
+            Model model
+    ) {
         if (request.getSession().getAttribute("userId") == null) {
             return "redirect:/login";
-        } else {
+        }
+        else {
             try {
-                service.createWordList(createWordlistForm);
-                return "redirect:/user/wordlist";
-            } catch (Exception e) {
+                if(service.createWordList(createWordlistForm).getStatusCode().is2xxSuccessful())
+                {
+                    model.addAttribute("message", "Create wordlist successfully");
+                    return "redirect:/user/wordlist";
+                }
+                else
+                {
+                    model.addAttribute("message", null);
+                    return "redirect:/user/wordlist";
+                }
+            }
+            catch (HttpClientErrorException e)
+            {
+                model.addAttribute("message", null);
+                if (e.getRawStatusCode() == HttpStatus.UNAUTHORIZED.value()) {
+                    logger.warning("Create wordlist is Unauthorized --> email: " + request.getSession().getAttribute("email"));
+                    return "redirect:/user/wordlist";
+                }
                 return "redirect:/user/wordlist";
             }
-
+            catch (HttpServerErrorException e)
+            {
+                model.addAttribute("message", null);
+                if (e.getRawStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                    logger.warning("Create wordlist is Internal Server Error --> email: " + request.getSession().getAttribute("email"));
+                    return "redirect:/user/wordlist";
+                }
+                return "redirect:/user/wordlist";
+            }
         }
     }
 
@@ -98,7 +130,21 @@ public class WordlistController {
             try {
                 service.deleteWordlist(wordlistId);
                 return "redirect:/user/wordlist";
-            } catch (Exception e) {
+            }
+            catch (HttpClientErrorException e)
+            {
+                if (e.getRawStatusCode() == HttpStatus.UNAUTHORIZED.value()) {
+                    logger.warning("Delete wordlist is Unauthorized --> email: " + request.getSession().getAttribute("email"));
+                    return "redirect:/user/wordlist";
+                }
+                return "redirect:/user/wordlist";
+            }
+            catch (HttpServerErrorException e)
+            {
+                if (e.getRawStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                    logger.warning("Delete wordlist is Internal Server Error --> email: " + request.getSession().getAttribute("email"));
+                    return "redirect:/user/wordlist";
+                }
                 return "redirect:/user/wordlist";
             }
         }
@@ -111,8 +157,6 @@ public class WordlistController {
             Model model,
             @PathVariable String wordlistId)
     {
-
-
         try{
             String userId = request.getSession().getAttribute("userId").toString();
             if(userId == null) {

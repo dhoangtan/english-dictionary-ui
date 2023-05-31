@@ -15,13 +15,11 @@
 
 <section id="services" class="services section-bg">
     <div class="container aos-init aos-animate" data-aos="fade-up">
-
         <div class="section-title">
             <h2 class="text-uppercase">my word list</h2>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Create New
                 Wordlist
             </button>
-
         </div>
 
         <div class="row">
@@ -36,15 +34,16 @@
                         <i class="ri-file-word-2-fill"></i>
                     </div>
                     <h4><a href="" th:text="${list.name}"></a></h4>
-<!--                    <h4><a th:text="${list.wordlistId}"></a></h4>-->
+                    <!--                    <h4><a th:text="${list.wordlistId}"></a></h4>-->
                     <form th:action="@{'/wordlist/flip/' + ${list.wordlistId}}" method="get">
                         <button class="btn btn-outline-primary" type="submit">
                             View
                         </button>
                     </form>
 
-                    <button th:id ="${list.wordlistId}" type="button" class="btn btn-outline-danger"
-                            onclick="deleteWordlist(this.id)">Delete</button>
+                    <button th:id="${list.wordlistId}" type="button" class="btn btn-outline-danger"
+                            onclick="deleteWordlist(this.id)">Delete
+                    </button>
                 </div>
             </div>
         </div>
@@ -61,7 +60,7 @@
 <script>
     function deleteWordlist(id) {
         if (confirm("Bạn có muốn xoá wordlist không?")) {
-            window.location.href = "/wordlist/delete/" + id ;
+            window.location.href = "/wordlist/delete/" + id;
         } else {
             alert("Đã huỷ xoá");
         }

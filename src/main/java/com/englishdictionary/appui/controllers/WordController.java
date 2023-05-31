@@ -44,8 +44,6 @@ public class WordController {
         }
     }
 
-
-
     // test
     @GetMapping(value = "/test1")
     @ResponseBody
@@ -59,20 +57,6 @@ public class WordController {
     @GetMapping(value = "/test2")
     @ResponseBody
     public String test2() {
-//        RestTemplate restTemplate = new RestTemplate();
-//        String url = "https://api.dictionaryapi.dev/api/v2/entries/en/{word}";
-//        Map<String, String> params = Map.of("word","hello");
-//        String getWord = restTemplate.getForObject(url,String.class, params);
-//
-//        JSONObject jsonObject = new JSONObject(getWord.substring(1,getWord.length()-1));
-//
-//        Gson gson = new Gson();
-//        Word word = gson.fromJson(jsonObject.toString(), Word.class);
-//
-//        return word.getWord() + word.getPhonetics();
-
-
-
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://api.dictionaryapi.dev/api/v2/entries/en/{word}";
         Map<String, String> params = Map.of("word","hello");
@@ -83,5 +67,7 @@ public class WordController {
 
     }
 
+//    // Add word to wordlist
+//    @PostMapping("/word/add")
 
 }
