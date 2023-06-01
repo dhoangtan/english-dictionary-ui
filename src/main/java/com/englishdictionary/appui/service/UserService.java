@@ -51,10 +51,11 @@ public class UserService {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<RegisterForm> request = new HttpEntity<>(registerForm, headers);
-            String url = "http://localhost/:" + Port + "/api/user/new";
+            String url = "http://localhost:" + Port + "/api/user/new";
             ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
             return response;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

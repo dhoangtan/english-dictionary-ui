@@ -1,9 +1,6 @@
 package com.englishdictionary.appui.service;
 
-import com.englishdictionary.appui.dto.AddWordToWordlistForm;
-import com.englishdictionary.appui.dto.CreateWordlistForm;
-import com.englishdictionary.appui.dto.Word;
-import com.englishdictionary.appui.dto.WordlistForm;
+import com.englishdictionary.appui.dto.*;
 import com.englishdictionary.appui.models.Wordlist;
 import com.google.gson.Gson;
 import org.json.JSONObject;
@@ -81,14 +78,29 @@ public class WordlistService {
     }
 
     // Rename wordlist
+//    public ResponseEntity<String> renameWordlist(String id, String name) {
+//        RestTemplate restTemplate = new RestTemplate();
+//        String url = "http://localhost:"+Port+"/api/wordlists";
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        RenameWordListDto renameWordListDto = new RenameWordListDto(id, name);
+//        HttpEntity<RenameWordListDto> request = new HttpEntity<>(renameWordListDto, headers);
+//        ResponseEntity<String> response = restTemplate.patchForObject(url, request, ResponseEntity.class);
+//        return response;
+//    }
     public void renameWordlist(String id, String name) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:"+Port+"/api/wordlists/";
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", id);
-        jsonObject.put("name", name);
-        restTemplate.put(url, jsonObject, JSONObject.class);
+        String url = "http://localhost:"+Port+"/api/wordlists";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        RenameWordListDto renameWordListDto = new RenameWordListDto(id, name);
+        HttpEntity<RenameWordListDto> request = new HttpEntity<>(renameWordListDto, headers);
+        restTemplate.patchForObject(url, request, ResponseEntity.class);
+//        restTemplate.put(url, request, ResponseEntity.class);
     }
+
+
     // lấy ra wordlist của user theo id wordlist
     public WordlistForm getWordlistById(String userId, String wordlistId) {
         RestTemplate restTemplate = new RestTemplate();
@@ -98,6 +110,14 @@ public class WordlistService {
         Gson gson = new Gson();
         WordlistForm wordlistForm = gson.fromJson(wordlist, WordlistForm.class);
         return wordlistForm == null ? null : wordlistForm;
+    }
+
+    // Remove word from wordlist
+    public void removeWordFromWordlist(String wordlistId, String wordId) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:"+Port+"/api/wordlists/{wordlistId}/word/{id}";
+        Map<String, String> params = Map.of("wordlistId",wordlistId,"id",wordId);
+        restTemplate.delete(url, params);
     }
 
 }

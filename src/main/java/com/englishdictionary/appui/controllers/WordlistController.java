@@ -104,6 +104,7 @@ public class WordlistController {
         }
         else {
             try {
+                String userId = request.getSession().getAttribute("userId").toString();
                 if(service.createWordList(createWordlistForm).getStatusCode().is2xxSuccessful())
                 {
                     model.addAttribute("message", "Create wordlist successfully");
@@ -122,7 +123,11 @@ public class WordlistController {
                     logger.warning("Create wordlist is Unauthorized --> email: " + request.getSession().getAttribute("email"));
                     return "redirect:/user/wordlist";
                 }
-                return "redirect:/user/wordlist";
+                else {
+                    logger.warning("Create wordlist is Bad Request --> email: " + createWordlistForm.getUserId());
+                    logger.warning("Create wordlist is Bad Request --> name: " + createWordlistForm.getName());
+                    return "redirect:/user/wordlist";
+                }
             }
             catch (HttpServerErrorException e)
             {
@@ -191,34 +196,104 @@ public class WordlistController {
         return "card/flipCard";
     }
 
-    // chưa dùng
-    // @GetMapping("/wordlist/{userId}/{wordlistId}")
-    // public String getUserWordlist(
-    // @PathVariable String userId,
-    // @PathVariable String wordlistIdId,
-    // Model model
-    // ) {
-    // try {
-    // List<Wordlist> wordList = service.getUserWordList(userId, wordlistIdId);
-    // model.addAttribute("wordList", wordList);
-    // return "WordList/wordlist";
-    // }
-    // catch (Exception e) {
-    // return "WordList/noWordlist";
-    // }
-    // }
-    // chưa dùng
-    @GetMapping("/wordlist")
-    public String wordList(
-            @RequestParam String wordlistId,
-            @RequestParam String wordId,
-            Model model) {
-        try {
-            List<Wordlist> wordList = service.getWordList(wordlistId, wordId);
-            model.addAttribute("wordList", wordList);
-            return "WordList/systemWordlist";
-        } catch (Exception e) {
-            return "WordList/noWordlist";
+    // rename wordlist
+    @PostMapping("/wordlist/rename")
+    public String renameWordlist(
+            HttpServletRequest request,
+            @RequestParam("wordlistId") String wordlistId,
+            @RequestParam("name") String name,
+            Model model
+    )
+    {
+        logger.warning("Rename wordlist is Bad Request --> name: " + name);
+        logger.warning("Rename wordlist is Bad Request --> wordlistId: " + wordlistId);
+        if (request.getSession().getAttribute("userId") == null) {
+            return "redirect:/login";
+        }
+        else {
+            try {
+                String userId = request.getSession().getAttribute("userId").toString();
+                logger.warning("Rename wordlist is Bad Request --> userId: " + userId);
+                service.renameWordlist(wordlistId, name);
+                return "redirect:/wordlist/flip/" + wordlistId;
+//                if(service.renameWordlist(wordlistId, name).getStatusCode() == HttpStatus.OK)
+//                {
+//                    logger.info("Rename wordlist is OK --> email: " + request.getSession().getAttribute("email"));
+//                    return "redirect:/wordlist/flip/" + wordlistId;
+//                }
+//                else
+//                {
+//                    logger.warning("Rename wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
+//                    return "redirect:/user/wordlist";
+//                }
+            }
+//            catch (HttpClientErrorException e)
+//            {
+//                logger.warning("Rename wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
+//                logger.warning("Rename wordlist is Bad Request --> name: " + name);
+//                logger.warning("Rename wordlist is Bad Request --> wordlistId: " + wordlistId);
+//                if (e.getRawStatusCode() == HttpStatus.UNAUTHORIZED.value()) {
+//                    logger.warning("Rename wordlist is Unauthorized --> email: " + request.getSession().getAttribute("email"));
+//                    return "redirect:/user/wordlist";
+//                }
+//                else {
+//                    logger.warning("Rename wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
+//                    logger.warning("Rename wordlist is Bad Request --> name: " + name);
+//                    return "redirect:/user/wordlist";
+//                }
+//            }
+//            catch (HttpServerErrorException e)
+//            {
+//
+//                if (e.getRawStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+//                    logger.warning("Rename wordlist is Internal Server Error --> email: " + request.getSession().getAttribute("email"));
+//                    return "redirect:/user/wordlist";
+//                }
+//                return "redirect:/user/wordlist";
+//            }
+            catch (Exception e)
+            {
+                return "redirect:/user/wordlist";
+            }
         }
     }
+
+    @GetMapping("/wordlist/delete/{wordlistId}/{wordId}")
+    public String deleteWordFromWordlist(
+            HttpServletRequest request,
+            @PathVariable String wordlistId,
+            @PathVariable String wordId
+    )
+    {
+        if (request.getSession().getAttribute("userId") == null) {
+            return "redirect:/login";
+        }
+        else {
+            try {
+                service.removeWordFromWordlist(wordlistId, wordId);
+                return "redirect:/wordlist/flip/" + wordlistId.toString();
+            }
+            catch (HttpClientErrorException e)
+            {
+                logger.warning("client Delete word from wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
+                if (e.getRawStatusCode() == HttpStatus.UNAUTHORIZED.value()) {
+                    logger.warning("Delete word from wordlist is Unauthorized --> email: " + request.getSession().getAttribute("email"));
+                    return "redirect:/wordlist/flip/" + wordlistId;
+                }
+                return "redirect:/wordlist/flip/" + wordlistId;
+            }
+            catch (HttpServerErrorException e)
+            {
+                logger.warning("server Delete word from wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
+
+                if (e.getRawStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                    logger.warning("Delete word from wordlist is Internal Server Error --> email: " + request.getSession().getAttribute("email"));
+                    return "redirect:/wordlist/flip/" + wordlistId;
+                }
+                return "redirect:/wordlist/flip/" + wordlistId;
+            }
+        }
+
+    }
+
 }

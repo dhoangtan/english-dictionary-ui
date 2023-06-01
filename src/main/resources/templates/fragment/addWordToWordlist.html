@@ -4,48 +4,29 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<div>
-
-<!--    <section  id="hero" class="d-flex align-items-center">-->
-<!--        <div class="container position-relative">-->
-            <!-- Modal -->
-            <div th:fragment="add-word-to-wordlist" class="modal fade position-absolute" id="myModal"
-                 role="dialog">
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header text-center">
-                            <h4 class="modal-title text-center w-75">Add New Wordlist</h4>
-                            <button type="button" class="close text-end" data-dismiss="modal">
-                                <i class="ri-close-circle-line"></i>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                          <h2 class="text-center text-primary">com mẹ mày</h2>
-<!--                            <form th:action="@{/wordlist/new}" th:object="${createWordlistForm}" method="post">-->
-<!--                                <div class="form-group">-->
-<!--                                    <label for="name">Name</label>-->
-<!--                                    <input type="text" th:field="${createWordlistForm.name}" class="form-control"-->
-<!--                                           id="name" placeholder="Enter name" required>-->
-<!--                                </div>-->
-<!--                                <div class="form-group" hidden="hidden">-->
-<!--                                    <label for="description">Description</label>-->
-<!--                                    <input type="text" th:field="${createWordlistForm.userId}" class="form-control"-->
-<!--                                           id="description"-->
-<!--                                           placeholder="Enter description">-->
-<!--                                </div>-->
-<!--                                <br>-->
-<!--                                <button type="submit" class="btn btn-primary text-center">Submit</button>-->
-<!--                            </form>-->
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
+<!-- Modal -->
+<div th:fragment="add-word-to-wordlist" class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Search word</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-<!--        </div>-->
-<!--    </section>-->
+
+            <form th:action="@{/word}" method="get">
+                <div class="modal-body">
+                    <input name="word" type="search" class="form-control rounded w-50 fs-5" placeholder="Search for any word or phrase..." aria-label="Search"
+                           aria-describedby="search-addon"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
 </div>
+
 </body>
 </html>

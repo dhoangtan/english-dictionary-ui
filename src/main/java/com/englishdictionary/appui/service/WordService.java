@@ -6,6 +6,7 @@ import com.englishdictionary.appui.dto.Word;
 import com.englishdictionary.appui.models.User;
 import com.englishdictionary.appui.models.Wordlist;
 import com.google.gson.Gson;
+import org.apache.catalina.connector.Response;
 import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -43,11 +44,5 @@ public class WordService {
         ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
         return response;
     }
-    // Remove word from wordlist
-    public void removeWordFromWordlist(String wordlistId, String wordId) {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:"+Port+"/api/wordlists/{wordlistId}/word/{id}";
-        Map<String, String> params = Map.of("wordlistId",wordlistId,"id",wordId);
-        restTemplate.delete(url, params);
-    }
+
 }

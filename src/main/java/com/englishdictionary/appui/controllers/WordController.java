@@ -106,9 +106,6 @@ public class WordController {
         } else {
             try {
                 String userId = request.getSession().getAttribute("userId").toString();
-                System.out.println("wordlistId: " + wordlistId);
-                System.out.println("word: " + word);
-                System.out.println("definition: " + definition);
                 AddWordToWordlistForm wordForm = new AddWordToWordlistForm();
                 wordForm.setWordlistId(wordlistId);
                 com.englishdictionary.appui.models.Word wordModel = new com.englishdictionary.appui.models.Word(null,word,definition);

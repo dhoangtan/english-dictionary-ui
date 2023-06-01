@@ -97,19 +97,26 @@ public class MainController {
         }
         catch (HttpClientErrorException e)
         {
+            logger.warning("client Unauthorized o ngoai nhe -- email: " + registerForm.getEmail());
             if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
                 logger.warning("Unauthorized -- email: " + registerForm.getEmail());
                 return "redirect:/register";
+            }else {
+                logger.warning("Unauthorized else -- email: " + registerForm.getEmail());
+                return "redirect:/register";
             }
-            return "redirect:/register";
         }
         catch (HttpServerErrorException e)
         {
+            logger.warning("server Unauthorized o ngoai nhe -- email: " + registerForm.getEmail());
             if (e.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
                 logger.warning("Internal server error -- email: " + registerForm.getEmail());
                 return "redirect:/register";
             }
-            return "redirect:/register";
+            else {
+                logger.warning("Internal server error else -- email: " + registerForm.getEmail());
+                return "redirect:/register";
+            }
         }
     }
 

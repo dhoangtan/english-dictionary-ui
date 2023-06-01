@@ -5,6 +5,9 @@
     <title>English Dictionary</title>
     <th:block th:replace="~{layout :: link-css}"></th:block>
     <th:block th:replace="~{layout :: link-css-layout}"></th:block>
+<!--    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css}">-->
+<!--    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js}"></script>-->
+<!--    <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js}"></script>-->
 </head>
 <body>
 <th:block th:replace="~{layout :: header}"></th:block>
@@ -12,12 +15,17 @@
 <section id="hero" class="d-flex align-items-center">
     <div class="container position-relative">
         <h1 class="text-center text-primary" th:text="${wordlist.getName()}"></h1>
+        <button type="button" class="btn btn-warning"  data-bs-toggle="modal" data-bs-target="#renameWordlist">
+            <i class="ri-edit-2-fill"></i>
+        </button>
         <hr>
         <div id="carouselExample" class="carousel slide align-items-center justify-content-center">
             <div class="carousel-inner ">
                 <div th:if="${wordlist.getWords().isEmpty()}" class="text-center">
                     <h3 class="text-danger">Chưa có word</h3>
-                    <button type="button" class="btn btn-outline-primary">Add new word</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Add new word
+                    </button>
                 </div>
                 <div class="carousel-item active h-100" th:each="word,i : ${wordlist.words}"> <!-- Slide item -->
                     <div class="card text-center "> <!-- Card-item -->
@@ -25,6 +33,14 @@
                             <img src="https://e1.pngegg.com/pngimages/378/567/png-clipart-macos-app-icons-microsoft-word.png" class="text-center h-25 w-25">
                         </div>
                         <div class="card-body ">
+                            <button class="btn btn-danger"
+                            th:data-wordId = "${word.getId()}"
+                            th:data-wordlistId = "${wordlist.getWordlistId()}"
+                            onclick="removeWord(this.dataset.wordlistId,this.dataset.wordId)">
+                                <i class="ri-delete-bin-line"></i>
+                            </button>
+                        </div>
+                        <div class="card-footer">
                             <h5 class="card-title" th:text="${wordlist.words.get(i.index).getWord()}"></h5>
                             <p style="display: none;"  th:id="'card-' + ${i.index}" class="card-text" th:text="${wordlist.words.get(i.index).definition}"></p>
                             <button type="button" class="btn btn-primary" th:onclick="'toggleDivVisibility(\'card-'+${i.index}+'\');'">Go somewhere</button>
@@ -43,9 +59,19 @@
         </div>
     </div>
 </section>
-
+<div class="container text-center align-items-center">
+    <th:block th:replace="~{fragment/addWordToWordlist.html :: add-word-to-wordlist}"></th:block>
+</div>
+<div class="container text-center align-items-center">
+    <th:block th:replace="~{fragment/renameWordlist :: rename-wordlist(${wordlist.getWordlistId()})}"></th:block>
+</div>
 <th:block th:replace="~{layout :: footer}"></th:block>
 <th:block th:replace="~{layout :: script-js}"></th:block>
 <script th:src="@{/flipcard/flipcard.js}"></script>
 </body>
 </html>
+<script>
+    function removeWord(wordlistId,wordId) {
+        window.location.href = "/wordlist/delete/" + wordlistId + "/" + wordId;
+    }
+</script>
