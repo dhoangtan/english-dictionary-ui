@@ -19,4 +19,6 @@ public class Word {
     private ArrayList<Meaning> meanings;
     private License license;
     private String sourceUrl;
+
+
 }

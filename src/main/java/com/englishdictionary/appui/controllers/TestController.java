@@ -123,6 +123,7 @@ public class TestController {
         } catch (HttpClientErrorException ex) {
             HttpStatusCode statusCode = ex.getStatusCode();
             System.out.println("=========Errorr 123 ===============");
+            System.out.println("status code là: " + statusCode);
             return ResponseEntity.status(statusCode).build().toString();
         }
     }

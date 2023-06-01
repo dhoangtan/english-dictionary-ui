@@ -59,6 +59,7 @@ public class MainController {
         catch (HttpClientErrorException e)
         {
             if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+                System.out.println("======================== Dong 62 ================");
                 logger.warning("Unauthorized -- email: " + loginForm.getEmail());
                 return "redirect:/login";
             }

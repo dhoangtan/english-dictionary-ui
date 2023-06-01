@@ -1,12 +1,15 @@
 package com.englishdictionary.appui.controllers;
 
+import com.englishdictionary.appui.dto.AddWordToWordlistForm;
 import com.englishdictionary.appui.dto.LoginForm;
 import com.englishdictionary.appui.dto.RegisterForm;
 import com.englishdictionary.appui.dto.WordlistForm;
 import com.englishdictionary.appui.service.WordlistService;
 import com.google.gson.Gson;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 

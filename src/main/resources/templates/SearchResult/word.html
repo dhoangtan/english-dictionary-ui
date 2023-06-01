@@ -74,7 +74,8 @@
                                 </p>
                                 <br>
                                 <div class="text-end">
-                                    <button class="btn btn-outline-primary">
+                                    <button type="button" class="btn btn-outline-primary" th:data-word="${word.getWord()}" th:data-definition="${meaning.getDefinitions().get(0).getDefinition()}"
+                                    onclick="addToWordList(this.dataset.word,this.dataset.definition)">
                                         <a>
                                             Add to word list
                                         </a>
@@ -95,3 +96,9 @@
 <th:block th:replace="~{layout :: script-js}"></th:block>
 </body>
 </html>
+<script>
+    function addToWordList(word,definition) {
+        window.location.href = "/addToWordList?word=" + word + "&definition=" + definition;
+        // window.location.href = "/";
+    }
+</script>

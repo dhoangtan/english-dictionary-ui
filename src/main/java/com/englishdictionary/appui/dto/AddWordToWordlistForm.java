@@ -12,6 +12,5 @@ import java.util.ArrayList;
 @NoArgsConstructor
 public class AddWordToWordlistForm {
     private String wordlistId;
-    private ArrayList<Word> word;
-
+    private Word word;
 }

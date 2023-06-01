@@ -42,17 +42,34 @@ public class WordlistController {
     public String getWordlist(
             HttpServletRequest request,
             Model model) {
-        if (request.getSession().getAttribute("userId") == null) {
-            return "redirect:/login";
-        } else {
+        try {
+            if (request.getSession().getAttribute("userId") == null) {
+                return "redirect:/login";
+            } else {
+                String userId = request.getSession().getAttribute("userId").toString();
+                List<Wordlist> wordlistForm = service.getAllUserWordList(userId);
+                model.addAttribute("wordList", wordlistForm);
+                model.addAttribute("createWordlistForm", new CreateWordlistForm("", userId));
+                model.addAttribute("wordlistForm", new WordlistForm());
+                model.addAttribute("message", "hello");
+                return "WordList/userWordlist";
+            }
+        }
+        catch (HttpClientErrorException e)
+        {
             String userId = request.getSession().getAttribute("userId").toString();
-            List<Wordlist> wordlistForm = service.getAllUserWordList(userId);
+            List<Wordlist> wordlistForm = null;
             model.addAttribute("wordList", wordlistForm);
             model.addAttribute("createWordlistForm", new CreateWordlistForm("", userId));
             model.addAttribute("wordlistForm", new WordlistForm());
             model.addAttribute("message", "hello");
             return "WordList/userWordlist";
         }
+        catch (Exception e)
+        {
+            return "WordList/noWordlist";
+        }
+
     }
 
     // UI add wordlist
