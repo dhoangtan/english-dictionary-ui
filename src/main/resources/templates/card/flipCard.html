@@ -5,9 +5,6 @@
     <title>English Dictionary</title>
     <th:block th:replace="~{layout :: link-css}"></th:block>
     <th:block th:replace="~{layout :: link-css-layout}"></th:block>
-<!--    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css}">-->
-<!--    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js}"></script>-->
-<!--    <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js}"></script>-->
 </head>
 <body>
 <th:block th:replace="~{layout :: header}"></th:block>
@@ -36,7 +33,8 @@
                             <button class="btn btn-danger"
                             th:data-wordId = "${word.getId()}"
                             th:data-wordlistId = "${wordlist.getWordlistId()}"
-                            onclick="removeWord(this.dataset.wordlistId,this.dataset.wordId)">
+                            onclick="removeWord(this.getAttribute('data-wordlistId'),this.getAttribute('data-wordId'))"
+                            >
                                 <i class="ri-delete-bin-line"></i>
                             </button>
                         </div>

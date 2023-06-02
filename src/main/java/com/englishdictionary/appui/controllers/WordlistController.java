@@ -253,6 +253,7 @@ public class WordlistController {
 //            }
             catch (Exception e)
             {
+                e.printStackTrace();
                 return "redirect:/user/wordlist";
             }
         }
@@ -273,25 +274,29 @@ public class WordlistController {
                 service.removeWordFromWordlist(wordlistId, wordId);
                 return "redirect:/wordlist/flip/" + wordlistId.toString();
             }
-            catch (HttpClientErrorException e)
-            {
-                logger.warning("client Delete word from wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
-                if (e.getRawStatusCode() == HttpStatus.UNAUTHORIZED.value()) {
-                    logger.warning("Delete word from wordlist is Unauthorized --> email: " + request.getSession().getAttribute("email"));
-                    return "redirect:/wordlist/flip/" + wordlistId;
-                }
-                return "redirect:/wordlist/flip/" + wordlistId;
+            catch (Exception e) {
+                e.printStackTrace();
+                return "redirect:/";
             }
-            catch (HttpServerErrorException e)
-            {
-                logger.warning("server Delete word from wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
-
-                if (e.getRawStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                    logger.warning("Delete word from wordlist is Internal Server Error --> email: " + request.getSession().getAttribute("email"));
-                    return "redirect:/wordlist/flip/" + wordlistId;
-                }
-                return "redirect:/wordlist/flip/" + wordlistId;
-            }
+//            catch (HttpClientErrorException e)
+//            {
+//                logger.warning("client Delete word from wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
+//                if (e.getRawStatusCode() == HttpStatus.UNAUTHORIZED.value()) {
+//                    logger.warning("Delete word from wordlist is Unauthorized --> email: " + request.getSession().getAttribute("email"));
+//                    return "redirect:/wordlist/flip/" + wordlistId;
+//                }
+//                return "redirect:/wordlist/flip/" + wordlistId;
+//            }
+//            catch (HttpServerErrorException e)
+//            {
+//                logger.warning("server Delete word from wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
+//
+//                if (e.getRawStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+//                    logger.warning("Delete word from wordlist is Internal Server Error --> email: " + request.getSession().getAttribute("email"));
+//                    return "redirect:/wordlist/flip/" + wordlistId;
+//                }
+//                return "redirect:/wordlist/flip/" + wordlistId;
+//            }
         }
 
     }

@@ -39,6 +39,21 @@ public class tessttt {
         WordlistForm wordlistForm = gson.fromJson(wordlist, WordlistForm.class);
         return wordlistForm.getName();
     }
-
+//    @RequestMapping(value = "/users/{id}", method = RequestMethod.PATCH)
+//    public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody JsonPatch patch) {
+//        User user = userService.findById(id);
+//        User patchedUser = applyPatchToUser(patch, user);
+//        userService.updateUser(patchedUser);
+//        return ResponseEntity.ok(patchedUser);
+//    }
+//
+//    private User applyPatchToUser(JsonPatch patch, User targetUser) {
+//        try {
+//            JsonNode patched = patch.apply(objectMapper.convertValue(targetUser, JsonNode.class));
+//            return objectMapper.treeToValue(patched, User.class);
+//        } catch (JsonPatchException | JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
 }
