@@ -205,52 +205,46 @@ public class WordlistController {
             Model model
     )
     {
-        logger.warning("Rename wordlist is Bad Request --> name: " + name);
-        logger.warning("Rename wordlist is Bad Request --> wordlistId: " + wordlistId);
         if (request.getSession().getAttribute("userId") == null) {
             return "redirect:/login";
         }
         else {
             try {
-                String userId = request.getSession().getAttribute("userId").toString();
-                logger.warning("Rename wordlist is Bad Request --> userId: " + userId);
-                service.renameWordlist(wordlistId, name);
-                return "redirect:/wordlist/flip/" + wordlistId;
-//                if(service.renameWordlist(wordlistId, name).getStatusCode() == HttpStatus.OK)
-//                {
-//                    logger.info("Rename wordlist is OK --> email: " + request.getSession().getAttribute("email"));
-//                    return "redirect:/wordlist/flip/" + wordlistId;
-//                }
-//                else
-//                {
-//                    logger.warning("Rename wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
-//                    return "redirect:/user/wordlist";
-//                }
+                if(service.renameWordlist(wordlistId, name).getStatusCode() == HttpStatus.OK)
+                {
+                    logger.info("Rename wordlist is OK --> email: " + request.getSession().getAttribute("email"));
+                    return "redirect:/wordlist/flip/" + wordlistId;
+                }
+                else
+                {
+                    logger.warning("Rename wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
+                    return "redirect:/user/wordlist";
+                }
             }
-//            catch (HttpClientErrorException e)
-//            {
-//                logger.warning("Rename wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
-//                logger.warning("Rename wordlist is Bad Request --> name: " + name);
-//                logger.warning("Rename wordlist is Bad Request --> wordlistId: " + wordlistId);
-//                if (e.getRawStatusCode() == HttpStatus.UNAUTHORIZED.value()) {
-//                    logger.warning("Rename wordlist is Unauthorized --> email: " + request.getSession().getAttribute("email"));
-//                    return "redirect:/user/wordlist";
-//                }
-//                else {
-//                    logger.warning("Rename wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
-//                    logger.warning("Rename wordlist is Bad Request --> name: " + name);
-//                    return "redirect:/user/wordlist";
-//                }
-//            }
-//            catch (HttpServerErrorException e)
-//            {
-//
-//                if (e.getRawStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-//                    logger.warning("Rename wordlist is Internal Server Error --> email: " + request.getSession().getAttribute("email"));
-//                    return "redirect:/user/wordlist";
-//                }
-//                return "redirect:/user/wordlist";
-//            }
+            catch (HttpClientErrorException e)
+            {
+                logger.warning("Rename wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
+                logger.warning("Rename wordlist is Bad Request --> name: " + name);
+                logger.warning("Rename wordlist is Bad Request --> wordlistId: " + wordlistId);
+                if (e.getRawStatusCode() == HttpStatus.UNAUTHORIZED.value()) {
+                    logger.warning("Rename wordlist is Unauthorized --> email: " + request.getSession().getAttribute("email"));
+                    return "redirect:/user/wordlist";
+                }
+                else {
+                    logger.warning("Rename wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
+                    logger.warning("Rename wordlist is Bad Request --> name: " + name);
+                    return "redirect:/user/wordlist";
+                }
+            }
+            catch (HttpServerErrorException e)
+            {
+
+                if (e.getRawStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                    logger.warning("Rename wordlist is Internal Server Error --> email: " + request.getSession().getAttribute("email"));
+                    return "redirect:/user/wordlist";
+                }
+                return "redirect:/user/wordlist";
+            }
             catch (Exception e)
             {
                 e.printStackTrace();
@@ -274,29 +268,26 @@ public class WordlistController {
                 service.removeWordFromWordlist(wordlistId, wordId);
                 return "redirect:/wordlist/flip/" + wordlistId.toString();
             }
-            catch (Exception e) {
-                e.printStackTrace();
-                return "redirect:/";
+
+            catch (HttpClientErrorException e)
+            {
+                logger.warning("client Delete word from wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
+                if (e.getRawStatusCode() == HttpStatus.UNAUTHORIZED.value()) {
+                    logger.warning("Delete word from wordlist is Unauthorized --> email: " + request.getSession().getAttribute("email"));
+                    return "redirect:/wordlist/flip/" + wordlistId;
+                }
+                return "redirect:/wordlist/flip/" + wordlistId;
             }
-//            catch (HttpClientErrorException e)
-//            {
-//                logger.warning("client Delete word from wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
-//                if (e.getRawStatusCode() == HttpStatus.UNAUTHORIZED.value()) {
-//                    logger.warning("Delete word from wordlist is Unauthorized --> email: " + request.getSession().getAttribute("email"));
-//                    return "redirect:/wordlist/flip/" + wordlistId;
-//                }
-//                return "redirect:/wordlist/flip/" + wordlistId;
-//            }
-//            catch (HttpServerErrorException e)
-//            {
-//                logger.warning("server Delete word from wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
-//
-//                if (e.getRawStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-//                    logger.warning("Delete word from wordlist is Internal Server Error --> email: " + request.getSession().getAttribute("email"));
-//                    return "redirect:/wordlist/flip/" + wordlistId;
-//                }
-//                return "redirect:/wordlist/flip/" + wordlistId;
-//            }
+            catch (HttpServerErrorException e)
+            {
+                logger.warning("server Delete word from wordlist is Bad Request --> email: " + request.getSession().getAttribute("email"));
+
+                if (e.getRawStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                    logger.warning("Delete word from wordlist is Internal Server Error --> email: " + request.getSession().getAttribute("email"));
+                    return "redirect:/wordlist/flip/" + wordlistId;
+                }
+                return "redirect:/wordlist/flip/" + wordlistId;
+            }
         }
 
     }
