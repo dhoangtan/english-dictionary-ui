@@ -5,9 +5,6 @@
     <title>English Dictionary</title>
     <th:block th:replace="~{layout :: link-css}"></th:block>
     <th:block th:replace="~{layout :: link-css-layout}"></th:block>
-    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css}">
-    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js}"></script>
-    <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js}"></script>
 </head>
 <body>
 <th:block th:replace="~{layout :: header}"></th:block>
@@ -16,9 +13,9 @@
 <section id="services" class="services section-bg">
     <div class="container aos-init aos-animate" data-aos="fade-up">
         <div class="section-title">
-            <h2 class="text-uppercase">my word list</h2>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Create New
-                Wordlist
+            <h2 class="text-uppercase" th:text="#{userWordlist.title}">my word list</h2>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" th:text="#{userWordlist.create}">
+                Create New Wordlist
             </button>
         </div>
 
@@ -35,15 +32,17 @@
                     </div>
                     <h4><a href="" th:text="${list.name}"></a></h4>
                     <!--                    <h4><a th:text="${list.wordlistId}"></a></h4>-->
-                    <form th:action="@{'/wordlist/flip/' + ${list.wordlistId}}" method="get">
-                        <button class="btn btn-outline-primary" type="submit">
-                            View
+                    <div class="d-inline-flex">
+                        <form th:action="@{'/wordlist/flip/' + ${list.wordlistId}}" method="get" class="p-2">
+                            <button class="btn btn-outline-primary" type="submit">
+                                View
+                            </button>
+                        </form>
+                        <button th:id="${list.wordlistId}" type="button" class="btn btn-danger"
+                                onclick="deleteWordlist(this.id)">
+                            <i class="ri-delete-bin-6-fill"></i>
                         </button>
-                    </form>
-
-                    <button th:id="${list.wordlistId}" type="button" class="btn btn-outline-danger"
-                            onclick="deleteWordlist(this.id)">Delete
-                    </button>
+                    </div>
                 </div>
             </div>
         </div>

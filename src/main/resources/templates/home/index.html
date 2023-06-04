@@ -28,13 +28,13 @@
     <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
         <div class="row justify-content-center">
             <div class="col-xl-7 col-lg-9 text-center">
-                <h1>English Dictionary</h1>
-                <h2>The website provides quality dictionaries</h2>
-                <h2 class="text-primary">Join our courses</h2>
+                <h1 th:text="#{nav.title}">English Dictionary</h1>
+                <h2 th:text="#{home.body}">The website provides quality dictionaries</h2>
+                <h2 class="text-primary" th:text="#{nav.getStarted}">Join our courses</h2>
             </div>
         </div>
         <div class="text-center">
-            <a href="#about" class="btn-get-started scrollto" onclick="return alert('Chức năng đang cập nhật')">Get Started</a>
+            <a href="#about" class="btn-get-started scrollto" th:text="#{nav.getStarted}" onclick="return alert('Chức năng đang cập nhật')">Get Started</a>
         </div>
 
         <div class="row icon-boxes">
@@ -42,8 +42,8 @@
                  data-aos-delay="200">
                 <div class="icon-box">
                     <div class="icon"><i class="ri-stack-line"></i></div>
-                    <h4 class="title"><a href="">Join the course</a></h4>
-                    <p class="description">Hurry up and join the course to improve your knowledge</p>
+                    <h4 class="title"><a href="" th:text="#{card.course}">Join the course</a></h4>
+                    <p class="description" th:text="#{card.course.body}">Hurry up and join the course to improve your knowledge</p>
                 </div>
             </div>
 
@@ -51,8 +51,8 @@
                  data-aos-delay="300">
                 <div class="icon-box">
                     <div class="icon"><i class="ri-book-line"></i></div>
-                    <h4 class="title" onclick="window.location.href = '/user/wordlist'" style="cursor: pointer"><a>Word List</a></h4>
-                    <p class="description">Create your own vocabulary list to practice</p>
+                    <h4 class="title" onclick="window.location.href = '/user/wordlist'" style="cursor: pointer"><a th:text="#{card.wordlist}">Word List</a></h4>
+                    <p class="description" th:text="#{card.wordlist.body}">Create your own vocabulary list to practice</p>
                 </div>
             </div>
 
@@ -60,8 +60,8 @@
                  data-aos-delay="400">
                 <div class="icon-box">
                     <div class="icon"><i class="ri-bank-card-line"></i></div>
-                    <h4 class="title"><a href="">Let's practice English together</a></h4>
-                    <p class="description">English vocabulary list easy to learn</p>
+                    <h4 class="title"><a href="" th:text="#{card.exam}">Let's practice English together</a></h4>
+                    <p class="description" th:text="#{card.exam.body}">English vocabulary list easy to learn</p>
                 </div>
             </div>
 
@@ -69,8 +69,8 @@
                  data-aos-delay="500">
                 <div class="icon-box">
                     <div class="icon"><i class="ri-pencil-ruler-line"></i></div>
-                    <h4 class="title"><a href="">Exercise</a></h4>
-                    <p class="description">Let's practice English together</p>
+                    <h4 class="title"><a href="" th:text="#{card.exercise}">Exercise</a></h4>
+                    <p class="description" th:text="#{card.exercise.body}">Let's practice English together</p>
                 </div>
             </div>
 

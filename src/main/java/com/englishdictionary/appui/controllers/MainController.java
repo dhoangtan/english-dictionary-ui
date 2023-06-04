@@ -1,5 +1,6 @@
 package com.englishdictionary.appui.controllers;
 
+import com.englishdictionary.appui.dto.Lang;
 import com.englishdictionary.appui.dto.LoginForm;
 import com.englishdictionary.appui.dto.RegisterForm;
 import com.englishdictionary.appui.service.UserService;
@@ -7,6 +8,7 @@ import com.englishdictionary.appui.service.WordService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
 import org.springframework.stereotype.Controller;
@@ -25,10 +27,14 @@ public class MainController {
     WordService wordService;
     @Autowired
     UserService userService;
+    @Autowired
+    private MessageSource messageSource;
     private final Logger logger = Logger.getLogger("com.englishdictionary.appui.controllers.MainController");
     @GetMapping
     public String index(
-            HttpSession session
+//            HttpSession session
+            HttpServletRequest request,
+            Model model
     ) {
         return "home/index";
     }
@@ -131,6 +137,7 @@ public class MainController {
     public String getUserId(HttpSession session) {
         return (String) session.getAttribute("userId");
     }
+
 
 
 }

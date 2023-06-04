@@ -1,5 +1,6 @@
 package com.englishdictionary.appui.controllers;
 
+import com.englishdictionary.appui.dto.Lang;
 import com.englishdictionary.appui.models.Wordlist;
 import com.englishdictionary.appui.service.UserService;
 import com.englishdictionary.appui.service.WordlistService;
@@ -7,9 +8,12 @@ import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import org.apache.logging.log4j.message.Message;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,11 +23,14 @@ public class TestController {
     @Autowired
     WordlistService wordlistService;
     @Autowired
-    UserService userService;
+    UserService userService;;
 
     @GetMapping("/test")
-    @ResponseBody
-    public String test() {
+//    @ResponseBody
+    public String test(
+            HttpServletRequest request,
+            Model model
+    ) {
         return "test";
     }
 
@@ -66,5 +73,6 @@ public class TestController {
         List<Wordlist> wordlistForm = wordlistService.getAllUserWordList(userId);
         return wordlistForm.toString();
     }
+
 
 }

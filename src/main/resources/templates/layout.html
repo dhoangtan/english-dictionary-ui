@@ -39,29 +39,36 @@
         <nav id="navbar" class="navbar">
             <ul>
                 <li onclick="return window.location.href = '/';"
-                    style="cursor: pointer"><a class="nav-link scrollto active">Home</a></li>
+                    style="cursor: pointer"><a class="nav-link scrollto active" th:text="#{nav.home}">Home</a></li>
                 <li><a class="nav-link scrollto" href="#Explore">Explore</a></li>
                 <li class="dropdown">
                     <a href="#">
-                        <span>Wordlists</span>
+                        <span th:text="#{nav.wordlists}">Wordlists</span>
                         <i class="bi bi-chevron-down"></i></a>
                     <ul>
                         <li onclick="return window.location.href = '/wordlist/default';"
-                            style="cursor: pointer"><a>System Wordlists</a></li>
+                            style="cursor: pointer"><a th:text="#{nav.systemWordlist}">System Wordlists</a></li>
                         <li onclick="return window.location.href = '/user/wordlist';"
-                        style="cursor: pointer"><a href="#">My Wordlists</a></li>
+                        style="cursor: pointer"><a href="#" th:text="#{nav.myWordlist}">My Wordlists</a></li>
                         <li onclick="return window.location.href = '/wordlist/new';"
                             style="cursor: pointer">
-                            <a>Add New Wordlist</a>
+                            <a th:text="#{nav.addNewWordlist}">Add New Wordlist</a>
                         </li>
 
                     </ul>
                 </li>
-                <li><a class="nav-link scrollto" href="#Exercises">Exercises</a></li>
-                <li><a class="nav-link scrollto" href="#courses">Courses</a></li>
-                <li><a class="nav-link scrollto" href="#Exams">Exams</a></li>
-                <li><a class="nav-link scrollto" href="#about">About</a></li>
-                <li class="dropdown"><a href="#"><span>Account</span> <i class="bi bi-chevron-down"></i></a>
+                <li><a class="nav-link scrollto" href="#Exercises" th:text="#{nav.exercise}">Exercises</a></li>
+                <li><a class="nav-link scrollto" href="#courses" th:text="#{nav.course}">Courses</a></li>
+                <li><a class="nav-link scrollto" href="#Exams" th:text="#{nav.exams}">Exams</a></li>
+                <li><a class="nav-link scrollto" href="#about" th:text="#{nav.about}">About</a></li>
+                <li class="dropdown"><a href="#"><span th:text="#{nav.settings}">Setting</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li><a href="?language=en">English</a></li>
+                        <li><a href="?language=vi_VN">Vietnamese</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><span th:text="#{nav.account}">Account</span> <i class="bi bi-chevron-down"></i></a>
                     <ul>
                         <li><a href="#">Drop Down 1</a></li>
                         <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
