@@ -5,6 +5,7 @@
   <title>Profile</title>
   <th:block th:replace="~{layout :: link-css}"></th:block>
   <th:block th:replace="~{layout :: link-css-layout}"></th:block>
+  <link th:href="@{/css/style-notify-button.css}" rel="stylesheet">
 </head>
 <body>
 <th:block th:replace="~{layout :: header}"></th:block>
@@ -30,6 +31,7 @@
                       <h5 class="modal-title" id="exampleModalLabel" style="color:#222831;">Edit profile</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+
                     <div class="modal-body">
                       <form th:action="@{/user/profile/update}" method="post" th:object="${user}">
                         <div class="input-group mb-3">
@@ -43,28 +45,25 @@
                         <div class="input-group mb-3">
                           <label class="input-group-text" for="inputGroupSelect01">Gender</label>
                           <select class="form-select" id="inputGroupSelect01" name="gender">
-                            <option hidden="hidden" disabled selected th:text="${user.getGender()}" th:value="${user.getGender()}"></option>
-                            <option th:value="1">Male</option>
-                            <option th:value="2">Female</option>
-                            <option th:value="3">Other</option>
+                            <option hidden="hidden" disabled selected th:text="${userGender}" th:value="${user.getGender()}"></option>
+                            <option th:each="item: ${gender}" th:value="${item.key}"
+                                    th:text="${item.value}"></option>
                           </select>
                         </div>
                         <div class="input-group mb-3">
                           <label class="input-group-text" for="inputGroupSelect02">Level</label>
                           <select class="form-select" id="inputGroupSelect02" name="level">
-                            <option hidden="hidden" disabled selected th:text="${user.getLevel()}" th:value="${user.getLevel()}"></option>
-                            <option th:value="1">Beginner</option>
-                            <option th:value="2">Intermediate</option>
-                            <option th:value="3">Advanced</option>
+                            <option hidden="hidden" disabled selected th:text="${userLevel}" th:value="${user.getLevel()}"></option>
+                            <option th:each="item: ${level}" th:value="${item.key}"
+                                    th:text="${item.value}"></option>
                           </select>
                         </div>
                         <div class="input-group mb-3">
                           <label class="input-group-text" for="inputGroupSelect03">Occupation</label>
                           <select class="form-select" id="inputGroupSelect03" name="occupation">
-                            <option hidden="hidden" disabled selected th:text="${user.getOccupation()}" th:value="${user.getOccupation()}"></option>
-                            <option th:value="1">Advanced</option>
-                            <option th:value="2">Teacher</option>
-                            <option th:value="3">Business</option>
+                            <option hidden="hidden" disabled selected th:text="${userOccupation}" th:value="${user.getOccupation()}"></option>
+                            <option th:each="item: ${occupation}" th:value="${item.key}"
+                                    th:text="${item.value}"></option>
                           </select>
                         </div>
                         <div class="modal-footer">
@@ -83,21 +82,13 @@
               <p>New York</p>
             </div>
           </div>
-          <div class="p-4 text-black" style="background-color: #f8f9fa;">
-            <!--<div class="d-flex justify-content-end text-center py-1">
-              <div>
-                <p class="mb-1 h5">253</p>
-                <p class="small text-muted mb-0">Photos</p>
-              </div>
-              <div class="px-3">
-                <p class="mb-1 h5">1026</p>
-                <p class="small text-muted mb-0">Followers</p>
-              </div>
-              <div>
-                <p class="mb-1 h5">478</p>
-                <p class="small text-muted mb-0">Following</p>
-              </div>
-            </div>-->
+          <div class="p-2 text-black" style="background-color: #00ADB5;">
+            <div class="d-flex justify-content-end text-center py-1">
+              <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+              </label>
+            </div>
           </div>
           <section id="about" class="about">
             <div class="container">
@@ -115,9 +106,9 @@
                       <ul>
                         <li>
                           <i class="bi bi-chevron-right"></i>
-                          <strong>Gender:</strong> <span th:text="${user.getGender()}"></span></li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Level:</strong> <span th:text="${user.getLevel()}"></span></li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Occupation:</strong> <span th:text="${user.getOccupation()}"></span></li>
+                          <strong>Gender:</strong> <span th:text="${userGender}"></span></li>
+                        <li><i class="bi bi-chevron-right"></i> <strong>Level:</strong> <span th:text="${userLevel}"></span></li>
+                        <li><i class="bi bi-chevron-right"></i> <strong>Occupation:</strong> <span th:text="${userOccupation}"></span></li>
                       </ul>
                     </div>
                   </div>

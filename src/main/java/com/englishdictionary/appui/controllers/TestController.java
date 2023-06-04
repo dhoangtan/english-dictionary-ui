@@ -1,17 +1,15 @@
 package com.englishdictionary.appui.controllers;
 
-import com.englishdictionary.appui.dto.Lang;
 import com.englishdictionary.appui.models.Wordlist;
 import com.englishdictionary.appui.service.UserService;
 import com.englishdictionary.appui.service.WordlistService;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.logging.log4j.message.Message;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -72,6 +70,13 @@ public class TestController {
         String userId = request.getSession().getAttribute("userId").toString();
         List<Wordlist> wordlistForm = wordlistService.getAllUserWordList(userId);
         return wordlistForm.toString();
+    }
+    @GetMapping("/test8")
+    @ResponseBody
+    public String test8(
+            HttpServletRequest request) {
+   Map test= userService.getGender();
+        return test.toString();
     }
 
 

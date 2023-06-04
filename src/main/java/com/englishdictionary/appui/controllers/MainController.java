@@ -18,6 +18,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @RequestMapping("/")
@@ -84,6 +85,12 @@ public class MainController {
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("registerForm", new RegisterForm());
+        Map gender= userService.getGender();
+        Map level= userService.getLevel();
+        Map occupation= userService.getOccupation();
+        model.addAttribute("gender",gender);
+        model.addAttribute("level",level);
+        model.addAttribute("occupation",occupation);
         return "account/register";
     }
 
@@ -126,6 +133,7 @@ public class MainController {
         }
     }
 
+    @GetMapping("/logout")
     public String logout(
             HttpSession session
     ) {

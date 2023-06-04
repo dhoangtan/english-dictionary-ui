@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.Map;
 
 
 @Service
@@ -74,5 +75,38 @@ public class UserService {
             e.printStackTrace();
             return null;
         }
+    }
+    public Map getGender()
+    {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:" + Port + "/api/user/gender";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        return response.getBody();
+
+    }
+    public Map getLevel()
+    {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:" + Port + "/api/user/level";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        return response.getBody();
+
+    }
+    public Map getOccupation()
+    {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:" + Port + "/api/user/occupation";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        return response.getBody();
+
     }
 }

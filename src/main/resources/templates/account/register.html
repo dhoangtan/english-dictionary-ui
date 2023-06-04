@@ -21,28 +21,25 @@
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupSelect01">Gender</label>
                     <select class="form-select" id="inputGroupSelect01" name="gender">
-                        <option selected>Choose...</option>
-                        <option th:value="1">Male</option>
-                        <option th:value="2">Female</option>
-                        <option th:value="3">Other</option>
+                        <option hidden="hidden" disabled selected>Choose...</option>
+                        <option th:each="item: ${gender}" th:value="${item.key}"
+                                th:text="${item.value}"></option>
                     </select>
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupSelect02">Level</label>
                     <select class="form-select" id="inputGroupSelect02" name="level">
-                        <option selected>Choose...</option>
-                        <option th:value="1">Beginner</option>
-                        <option th:value="2">Intermediate</option>
-                        <option th:value="3">Advanced</option>
+                        <option hidden="hidden" disabled selected>Choose...</option>
+                        <option th:each="item: ${level}" th:value="${item.key}"
+                                th:text="${item.value}"></option>
                     </select>
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupSelect03">Occupation</label>
                     <select class="form-select" id="inputGroupSelect03" name="occupation">
-                        <option selected>Choose...</option>
-                        <option th:value="1">Advanced</option>
-                        <option th:value="2">Teacher</option>
-                        <option th:value="3">Business</option>
+                        <option hidden="hidden" disabled selected>Choose...</option>
+                        <option th:each="item: ${occupation}" th:value="${item.key}"
+                                th:text="${item.value}"></option>
                     </select>
                 </div>
                 <button type="submit">Register</button>
