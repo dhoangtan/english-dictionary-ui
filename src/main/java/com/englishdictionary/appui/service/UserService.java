@@ -16,15 +16,6 @@ import java.io.IOException;
 public class UserService {
     private final String Port = "4040";
 
-    public User getUser(
-            @PathVariable("loginForm") @NonNull LoginForm loginForm
-    ) {
-
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:" + Port + "/api/user/" + loginForm.getEmail() + "/" + loginForm.getPassword();
-        User user = restTemplate.getForObject(url, User.class);
-        return user;
-    }
     // Lấy ra userId từ email và password
     public ResponseEntity<String> getUserId(
             @PathVariable("loginForm") @NonNull LoginForm loginForm
