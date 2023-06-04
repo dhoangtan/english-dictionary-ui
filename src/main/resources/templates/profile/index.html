@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+  <th:block th:replace="~{layout :: link-css}"></th:block>
+  <th:block th:replace="~{layout :: link-css-layout}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{layout :: header}"></th:block>
+<section class="h-100 gradient-custom-2">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-12 col-xl-9">
+        <div class="card">
+          <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+            <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px; height: 250px;">
+              <img th:src="@{${urlAvt}}"
+                   alt="" class="img-fluid img-thumbnail mt-4 mb-2"
+                   style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; z-index: 1">
+              <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal"
+                      data-bs-target="#editProfile" style="z-index: 1;" data-mdb-ripple-color="dark" >
+                Edit profile
+              </button>
+              <!--Dialog-->
+              <div class="modal fade" id="editProfile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel" style="color:#222831;">Edit profile</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form th:action="@{/user/profile/update}" method="post" th:object="${user}">
+                        <div class="input-group mb-3">
+                          <span class="input-group-text">Default</span>
+                          <input readonly type="text" th:field="*{email}" placeholder="Email" class="form-control" aria-label="Sizing example input">
+                        </div>
+                        <div class="input-group mb-3">
+                          <span class="input-group-text">Name</span>
+                          <input type="text" placeholder="Name" th:field="*{fullName}" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                          <label class="input-group-text" for="inputGroupSelect01">Gender</label>
+                          <select class="form-select" id="inputGroupSelect01" name="gender">
+                            <option hidden="hidden" disabled selected th:text="${user.getGender()}" th:value="${user.getGender()}"></option>
+                            <option th:value="1">Male</option>
+                            <option th:value="2">Female</option>
+                            <option th:value="3">Other</option>
+                          </select>
+                        </div>
+                        <div class="input-group mb-3">
+                          <label class="input-group-text" for="inputGroupSelect02">Level</label>
+                          <select class="form-select" id="inputGroupSelect02" name="level">
+                            <option hidden="hidden" disabled selected th:text="${user.getLevel()}" th:value="${user.getLevel()}"></option>
+                            <option th:value="1">Beginner</option>
+                            <option th:value="2">Intermediate</option>
+                            <option th:value="3">Advanced</option>
+                          </select>
+                        </div>
+                        <div class="input-group mb-3">
+                          <label class="input-group-text" for="inputGroupSelect03">Occupation</label>
+                          <select class="form-select" id="inputGroupSelect03" name="occupation">
+                            <option hidden="hidden" disabled selected th:text="${user.getOccupation()}" th:value="${user.getOccupation()}"></option>
+                            <option th:value="1">Advanced</option>
+                            <option th:value="2">Teacher</option>
+                            <option th:value="3">Business</option>
+                          </select>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                      </form>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ms-3" style="margin-top: 130px;">
+              <h5 th:text="${user.getFullName()}"></h5>
+              <p>New York</p>
+            </div>
+          </div>
+          <div class="p-4 text-black" style="background-color: #f8f9fa;">
+            <!--<div class="d-flex justify-content-end text-center py-1">
+              <div>
+                <p class="mb-1 h5">253</p>
+                <p class="small text-muted mb-0">Photos</p>
+              </div>
+              <div class="px-3">
+                <p class="mb-1 h5">1026</p>
+                <p class="small text-muted mb-0">Followers</p>
+              </div>
+              <div>
+                <p class="mb-1 h5">478</p>
+                <p class="small text-muted mb-0">Following</p>
+              </div>
+            </div>-->
+          </div>
+          <section id="about" class="about">
+            <div class="container">
+              <div class="section-title">
+                <h2>About</h2>
+                </div>
+              <div class="row">
+                <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
+                  <h4>UI/UX Designer &amp; Web Developer.</h4>
+                  <p class="fst-italic">
+                    Lorem ipsum dolor sit amet.....
+                  </p>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <ul>
+                        <li>
+                          <i class="bi bi-chevron-right"></i>
+                          <strong>Gender:</strong> <span th:text="${user.getGender()}"></span></li>
+                        <li><i class="bi bi-chevron-right"></i> <strong>Level:</strong> <span th:text="${user.getLevel()}"></span></li>
+                        <li><i class="bi bi-chevron-right"></i> <strong>Occupation:</strong> <span th:text="${user.getOccupation()}"></span></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section><!-- End About Section -->
+          <div class="card-body p-4 text-black">
+            <div class="mb-5">
+              <p class="lead fw-normal mb-1">About</p>
+              <div class="p-4" style="background-color: #f8f9fa;">
+                <p class="font-italic mb-1">Web Developer</p>
+                <p class="font-italic mb-1">Lives in New York</p>
+                <p class="font-italic mb-0">Photographer</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<th:block th:replace="~{layout :: footer}"></th:block>
+<th:block th:replace="~{layout :: script-js}"></th:block>
+</body>
+
+</html>
