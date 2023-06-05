@@ -7,6 +7,8 @@ import com.englishdictionary.appui.service.UserService;
 import com.englishdictionary.appui.service.WordService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -19,7 +21,6 @@ import org.springframework.web.client.HttpServerErrorException;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @RequestMapping("/")
 @Controller
@@ -30,19 +31,27 @@ public class MainController {
     UserService userService;
     @Autowired
     private MessageSource messageSource;
-    private final Logger logger = Logger.getLogger("com.englishdictionary.appui.controllers.MainController");
+    private final Logger logger = LoggerFactory.getLogger(MainController.class);
+
+    private final String CONTROLLER_NAME = "[MainController]";
+
+
     @GetMapping
     public String index(
 //            HttpSession session
             HttpServletRequest request,
             Model model
     ) {
+        logger.info(CONTROLLER_NAME + "/[index] - [GET] - Called");
+        logger.info(CONTROLLER_NAME + "/[index] - [GET] - Completed");
         return "home/index";
     }
 
     @GetMapping("/login")
     public String login(Model model) {
+        logger.info(CONTROLLER_NAME + "/[login] - [GET] - Called");
         model.addAttribute("loginForm", new LoginForm());
+        logger.info(CONTROLLER_NAME + "/[login] - Completed");
         return "account/login";
     }
 
@@ -52,38 +61,44 @@ public class MainController {
             HttpServletRequest request
     ) throws IOException {
         try {
-            if (userService.getUserId(loginForm).getStatusCode().is2xxSuccessful() == true) {
+            logger.info(CONTROLLER_NAME + "/[login] - [POST] - Called");
+            logger.info("\tCall Get user Id");
+            if (userService.getUserId(loginForm).getStatusCode().is2xxSuccessful()) {
+                logger.info("\tGet user called - Completed");
+                logger.info("\tUser Login - Success");
                 String userId = userService.getUserId(loginForm).getBody();
+                logger.info("\tCreate session");
                 HttpSession session = request.getSession();
                 session.setMaxInactiveInterval(60 * 60);
                 session.setAttribute("userId", userId);
                 session.setAttribute("email", loginForm.getEmail());
+                logger.info("\tCreate session - Completed");
+                logger.info("\tRedirect to [/]");
                 return "redirect:/";
             } else {
+                logger.info("\tGet user called - Completed");
+                logger.info("\tUser Login - Failed");
+                logger.info("\tRedirect to [/login]");
                 return "redirect:/login";
             }
         }
         catch (HttpClientErrorException e)
         {
-            if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-                System.out.println("======================== Dong 62 ================");
-                logger.warning("Unauthorized -- email: " + loginForm.getEmail());
-                return "redirect:/login";
-            }
+            logger.error("\tError occurred on Client side with error message: " + e.getMessage());
+            logger.info("\tRedirect to [/login]");
             return "redirect:/login";
         }
         catch (HttpServerErrorException e)
         {
-            if (e.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
-                logger.warning("Internal server error -- email: " + loginForm.getEmail());
-                return "redirect:/login";
-            }
+            logger.error("\tError occurred on Server side with error: " + e.getStatusCode());
+            logger.info("\tRedirect to [/login]");
             return "redirect:/login";
         }
     }
 
     @GetMapping("/register")
     public String register(Model model) {
+        logger.info(CONTROLLER_NAME + "/[register] - [GET] - Called");
         model.addAttribute("registerForm", new RegisterForm());
         Map gender= userService.getGender();
         Map level= userService.getLevel();
@@ -91,6 +106,8 @@ public class MainController {
         model.addAttribute("gender",gender);
         model.addAttribute("level",level);
         model.addAttribute("occupation",occupation);
+        logger.info("\tRedirect to [account/register]");
+        logger.info(CONTROLLER_NAME + "/[register] - [GET] - Completed");
         return "account/register";
     }
 
@@ -99,37 +116,34 @@ public class MainController {
             @ModelAttribute("registerForm") RegisterForm registerForm
     ) {
         try{
+            logger.info(CONTROLLER_NAME + "/[register] - [POST] - Called");
             if(userService.Register(registerForm).getStatusCode().is2xxSuccessful())
             {
+                logger.info("\tUser login - Success");
+                logger.info("\tRedirect to [/login]");
+                logger.info(CONTROLLER_NAME + "/[register] - [POST] - Completed");
                 return "redirect:/login";
             }
             else
             {
+                logger.info("\tUser login - Failed");
+                logger.info("\tRedirect to [/register]");
+                logger.info(CONTROLLER_NAME + "/[register] - [POST] - Completed");
                 return "redirect:/register";
             }
         }
         catch (HttpClientErrorException e)
         {
-            logger.warning("client Unauthorized o ngoai nhe -- email: " + registerForm.getEmail());
-            if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-                logger.warning("Unauthorized -- email: " + registerForm.getEmail());
-                return "redirect:/register";
-            }else {
-                logger.warning("Unauthorized else -- email: " + registerForm.getEmail());
-                return "redirect:/register";
-            }
+            logger.error("\tError occurred on Client side with error message: " + e.getMessage());
+            logger.info("\tRedirect to [/register]");
+            return "redirect:/register";
         }
         catch (HttpServerErrorException e)
         {
-            logger.warning("server Unauthorized o ngoai nhe -- email: " + registerForm.getEmail());
-            if (e.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
-                logger.warning("Internal server error -- email: " + registerForm.getEmail());
-                return "redirect:/register";
-            }
-            else {
-                logger.warning("Internal server error else -- email: " + registerForm.getEmail());
-                return "redirect:/register";
-            }
+            logger.error("\tError occurred on Server side with error: " + e.getStatusCode());
+            logger.info("\tRedirect to [/register]");
+            logger.info(CONTROLLER_NAME + "/[register] - [POST] - Completed");
+            return "redirect:/register";
         }
     }
 
@@ -145,7 +159,4 @@ public class MainController {
     public String getUserId(HttpSession session) {
         return (String) session.getAttribute("userId");
     }
-
-
-
 }
