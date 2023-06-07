@@ -1,6 +1,7 @@
 package com.englishdictionary.appui.controllers;
 
 import com.englishdictionary.appui.dto.CreateWordlistForm;
+import com.englishdictionary.appui.dto.FileAvt;
 import com.englishdictionary.appui.dto.RegisterForm;
 import com.englishdictionary.appui.dto.WordlistForm;
 import com.englishdictionary.appui.models.User;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,8 @@ public class ProfileController {
             Map gender= userService.getGender();
             Map level= userService.getLevel();
             Map occupation= userService.getOccupation();
+            model.addAttribute("userId",userId);
+            model.addAttribute("fileAvt", new FileAvt());
             model.addAttribute("gender",gender);
             model.addAttribute("level",level);
             model.addAttribute("occupation",occupation);
@@ -77,5 +81,22 @@ public class ProfileController {
             return "redirect:/user/profile";
         }
     }
+    @PostMapping("/profile/updateAvt")
+    public String updateAvt(@ModelAttribute("fileAvt") FileAvt multipartFile, HttpServletRequest request){
+        logger.info(CONTROLLER_NAME + "/[updateAvatar] - [POST] - Called");
+        if (request.getSession().getAttribute("userId") == null) {
+            logger.info("\tUpdate profile failed - User not logged in");
+            logger.info("\tRedirect to [/login]");
+            logger.info(CONTROLLER_NAME + "/[updateAvatar] - [POST] - Completed");
+            return "redirect:/login";
+        }else {
+            String userId = request.getSession().getAttribute("userId").toString();
+            userService.updateAvatar(multipartFile,userId);
+            logger.info("\tUpdate profile - Success");
+            logger.info("\tRedirect to [/user/profile]");
+            logger.info(CONTROLLER_NAME + "/[updateAvatar] - [POST] - Completed");
+            return "redirect:/user/profile";
+        }
+            }
 
 }

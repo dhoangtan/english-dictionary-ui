@@ -14,24 +14,36 @@
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-lg-12 col-xl-9">
         <div class="card">
-          <div class="rounded-top text-white d-flex flex-row" th:style="'background-image: url(/image/banner.jpg); height:200px; object-fit: cover'" style="">
-            <label class="switch position-absolute top-0 end-0 me-3" style="margin-top: 167px;">
-              <input type="checkbox">
-              <span class="slider"></span>
-            </label>
-            <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px; height: 250px;">
-              <img th:src="@{${urlAvt}}"
-                   alt="" class="img-fluid img-thumbnail mt-4 mb-2"
-                   style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; z-index: 1">
+          <div class="rounded-top d-flex flex-row"
+               th:style="'background-image: url(/image/Background-banner-1.jpg); height:190px; object-fit: cover'" style="">
+            <div class="ms-5 d-flex flex-column" style="width: 160px; height: 160px; margin-top: 120px">
+              <div class="position-relative">
+                <img th:src="@{${urlAvt}}"
+                     alt="" class="img-fluid img-thumbnail"
+                     style="width: 160px; height: 160px; border-radius: 50%; object-fit: cover; z-index: 1">
+                <div class="position-absolute bottom-0 end-0">
+                  <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#uploadfile">
+                    <i class='bx bx-upload'></i>
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="ms-3" style="margin-top: 130px;">
-              <h5 th:text="${user.getFullName()}"></h5>
-              <p>New York</p>
+            <div class="fs-2 ms-3 position-relative" style="margin-top: 190px; color:#000">
+              <p class="text-capitalize" th:text="${user.getFullName()}"></p>
+            </div>
+          </div>
+          <div class="" style="background-color: #E9ECEF;height: 100px">
+            <div class="d-flex justify-content-end text-center py-1">
+              <label class="switch position-absolute top-0 end-0 me-3" style="margin-top: 177px;">
+                <input type="checkbox">
+                <span class="slider"></span>
+              </label>
+
             </div>
           </div>
           <div id="about" class="about">
             <div class="container">
-              <div class="text-center">
+              <div class="text-center mt-2">
                 <h2>About</h2>
               </div>
               <div class="d-flex justify-content-end text-center py-1">
@@ -79,7 +91,7 @@
 </section>
 <th:block th:replace="~{layout :: footer}"></th:block>
 <th:block th:replace="~{layout :: script-js}"></th:block>
-<!--Dialog-->
+<!--Dialog edit profile-->
 <div class="modal fade" id="editProfile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -132,6 +144,36 @@
     </div>
   </div>
 </div>
-</body>
+<!-- Dialog Upload file -->
+<div class="modal fade" id="uploadfile" tabindex="-1" aria-labelledby="uploadFileLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadFileLabel">Upload File</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/user/profile/updateAvt}" method="post" enctype="multipart/form-data" th:object="${fileAvt}">
+          <div class="mb-3">
+            <label for="file" class="form-label">Update profile picture</label>
+            <input class="form-control" th:field="*{file}" type="file" id="file" accept=".png, .jpg, .jpeg">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
 
+    </div>
+  </div>
+</div>
+</body>
+<script>
+    function action(let userID){
+         const xhr = new XMLHttpRequest();
+         xhr.open('POT', 'http://localhost:4040/api/user/profile/files/');
+         setTimeout(function () {window.location.href="/user/profile"; }, 1000);
+    }
+</script>
 </html>

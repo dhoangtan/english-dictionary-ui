@@ -1,13 +1,18 @@
 package com.englishdictionary.appui.service;
 
+import com.englishdictionary.appui.dto.FileAvt;
 import com.englishdictionary.appui.dto.LoginForm;
 import com.englishdictionary.appui.dto.RegisterForm;
 import com.englishdictionary.appui.models.User;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
@@ -107,6 +112,19 @@ public class UserService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
         return response.getBody();
+    }
 
+    public ResponseEntity<String> updateAvatar(FileAvt file, String userId) {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            String url = "http://localhost:" + Port + "/api/user/profile/files/"+userId;
+            /*HttpHeaders headers = new HttpHeaders();
+            HttpEntity<MultipartFile> requestEntity = new HttpEntity<>(file,headers);*/
+            ResponseEntity<String> response = restTemplate.postForEntity(url, file.getFile(), String.class);
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
