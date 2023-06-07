@@ -1,5 +1,7 @@
 package com.englishdictionary.appui.controllers;
 
+import com.englishdictionary.appui.models.Answer;
+import com.englishdictionary.appui.models.ListQuestion;
 import com.englishdictionary.appui.models.Question;
 import com.englishdictionary.appui.service.ExamsService;
 import com.google.gson.Gson;
@@ -27,7 +29,8 @@ public class ExamsController {
             Model model
     ) {
         try {
-            List<Question> question = examsService.getAllQuestions().getBody();
+            ListQuestion question = examsService.getAllQuestions().getBody();
+            setFalseAnswer(question);
             model.addAttribute("questions", question);
         } catch (HttpClientErrorException e) {
             e.printStackTrace();
@@ -43,7 +46,7 @@ public class ExamsController {
             HttpServletRequest request,
             Model model
     ) {
-        List<Question> question = examsService.getAllQuestions().getBody();
+        ListQuestion question = examsService.getAllQuestions().getBody();
         return new Gson().toJson(question);
     }
 
@@ -51,18 +54,42 @@ public class ExamsController {
     public String postExams(
             HttpServletRequest request,
             Model model,
-            @ModelAttribute("questions") List<Question> questions
+            @ModelAttribute("questions") ListQuestion questions
     ) {
+        int grade = 0;
+        ListQuestion serverQuestions = examsService.getAllQuestions().getBody();
+
+        for (int i = 0; i < questions.getList().size(); i++) {
+            Question userQuestion = questions.getList().get(i);
+            List<Answer> userAnswers = userQuestion.getAnswers();
+
+            Question serverQuestion = serverQuestions.getList().get(i);
+            List<Answer> serverAnswers = serverQuestion.getAnswers();
+
+            for (int j = 0; j < userAnswers.size(); j++) {
+                Answer userAnswer = userAnswers.get(j);
+                Answer serverAnswer = serverAnswers.get(j);
+
+                boolean isUserAnswerCorrect = request.getParameter("questions[" + i + "].answers[" + j + "].isCorrect") != null;
+                userAnswer.setIsCorrect(isUserAnswerCorrect);
+
+                if (isUserAnswerCorrect && serverAnswer.getIsCorrect()) {
+                    grade++;
+                }
+            }
+        }
+
+        System.out.println("Grade: " + grade);
         model.addAttribute("questions", questions);
         return "redirect:/exams";
     }
 
-//    private void setFalseAnswer(List<Question> questions) {
-//        for (Question question : questions) {
-//            for (Answer answer : question.getAnswers()) {
-//                answer.setCorrect(false);
-//            }
-//        }
-//    }
+    private void setFalseAnswer(ListQuestion questions) {
+        for (Question question : questions.getQuestions()) {
+            for (Answer answer : question.getAnswers()) {
+                answer.setIsCorrect(false);
+            }
+        }
+    }
 
 }

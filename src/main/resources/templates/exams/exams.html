@@ -13,35 +13,65 @@
 <section class="d-flex align-items-center">
     <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
 <!--        <form th:action="@{/exams}" th:object="${questions}" method="post" role="form">-->
+<!--            <div class="row justify-content-center">-->
+<!--                <div class="mx-0 mx-sm-auto mt-3" th:each="question, i : ${questions}">-->
+<!--                    <div class="card">-->
+<!--                        <div class="card-body">-->
+<!--                            <div class="text-center">-->
+<!--                                <i class="ri-question-line text-primary h-100"></i>-->
+<!--                                <p>-->
+<!--                                    <b th:text="'Câu '+${i.index+1}+': '" class="text-primary"></b>-->
+<!--                                    <strong th:text="${question.getName()}"></strong>-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                            <hr/>-->
+<!--                            <div class="px-4">-->
+<!--                                <div class="form-check mb-2" th:each="answer, j : ${question.answers}">-->
+<!--                                    <input class="form-check-input" type="radio" th:name="'exampleForm-'+${i.index}"-->
+<!--                                           th:id="'radio-'+${i.index}+${j.index}" th:value="true" />-->
+<!--                                    <label class="form-check-label fs-6" th:for="'radio-'+${i.index}+${j.index}"-->
+<!--                                           th:text="${answer.getAnswer()}" th:f style="cursor: pointer"></label>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash;<div class="card-footer text-end"><button type="button" class="btn btn-primary">Submit</button></div>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="row justify-content-center">-->
+<!--                <button type="submit" class="btn btn-primary">Submit</button>-->
+<!--            </div>-->
+<!--        </form>-->
+        <form th:action="@{/exams}" th:object="${questions}" method="post" role="form">
             <div class="row justify-content-center">
-                <div class="mx-0 mx-sm-auto mt-3" th:each="question, i : ${questions}">
+                <div class="mx-0 mx-sm-auto mt-3" th:each="question, i : ${questions.getList()}">
                     <div class="card">
                         <div class="card-body">
                             <div class="text-center">
                                 <i class="ri-question-line text-primary h-100"></i>
                                 <p>
-                                    <b th:text="'Câu '+${i.index+1}+': '" class="text-primary"></b>
-                                    <strong th:text="${question.getName()}"></strong>
+                                    <b th:text="'Câu ' + ${i.index + 1} + ': '" class="text-primary"></b>
+                                    <strong th:text="${question.name}"></strong>
                                 </p>
                             </div>
                             <hr/>
                             <div class="px-4">
                                 <div class="form-check mb-2" th:each="answer, j : ${question.answers}">
-                                    <input class="form-check-input" type="radio" th:name="'exampleForm-'+${i.index}"
-                                           th:id="'radio-'+${i.index}+${j.index}" th:value="true" />
-                                    <label class="form-check-label fs-6" th:for="'radio-'+${i.index}+${j.index}"
-                                           th:text="${answer.getAnswer()}" th:f style="cursor: pointer"></label>
+                                    <input class="form-check-input" type="radio"
+                                            th:name="'exampleForm-'+${i.index}"
+                                           th:id="'radio-' + ${i.index} + ${j.index}" th:value="true" th:field="*{questions[__${i.index}__].answers[__${j.index}__].isCorrect}"/>
+                                    <label class="form-check-label fs-6" th:for="'radio-' + ${i.index} + ${j.index}"
+                                           th:text="${answer.answer}" style="cursor: pointer"></label>
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="card-footer text-end"><button type="button" class="btn btn-primary">Submit</button></div>-->
                     </div>
                 </div>
             </div>
             <div class="row justify-content-center">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
-<!--        </form>-->
+        </form>
     </div>
 </section>
 <!--<form th:action="@{/exams}" th:object="${questions}" method="post" role="form">-->
