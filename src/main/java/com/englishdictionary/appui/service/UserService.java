@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -18,8 +18,7 @@ public class UserService {
 
     // Lấy ra userId từ email và password
     public ResponseEntity<String> getUserId(
-            @PathVariable("loginForm") @NonNull LoginForm loginForm
-    ) throws IOException {
+            @PathVariable("loginForm") @NonNull LoginForm loginForm) throws IOException {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -45,9 +44,10 @@ public class UserService {
             return null;
         }
     }
-    public User getUserInfo(String userId){
+
+    public User getUserInfo(String userId) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:" + Port + "/api/user/"+userId+"/profile";
+        String url = "http://localhost:" + Port + "/api/user/" + userId + "/profile";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -55,20 +55,22 @@ public class UserService {
         User user = response.getBody();
         return user;
     }
-    public String getAvt(String userId){
+
+    public String getAvt(String userId) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:" + Port + "/api/user/profile/avatar/"+userId;
+        String url = "http://localhost:" + Port + "/api/user/profile/avatar/" + userId;
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         return response.getBody().toString();
     }
+
     public ResponseEntity<String> updateUser(@PathVariable("user") @NonNull User user, String userId) {
         try {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<User> request = new HttpEntity<>(user, headers);
-            String url = "http://localhost:" + Port + "/api/user/profile/"+userId;
-            ResponseEntity<String> response = restTemplate.exchange(url,HttpMethod.PUT, request, String.class);
+            String url = "http://localhost:" + Port + "/api/user/profile/" + userId;
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, request, String.class);
             return response;
         } catch (Exception e) {
             e.printStackTrace();
