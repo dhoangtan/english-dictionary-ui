@@ -161,9 +161,9 @@ public class MainController {
 
     @GetMapping("/logout")
     public String logout(
-            HttpSession session
+            HttpServletRequest request
     ) {
-        session.removeAttribute("userId");
+        request.getSession().invalidate();
         return "redirect:/";
     }
 

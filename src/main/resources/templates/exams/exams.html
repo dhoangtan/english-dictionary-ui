@@ -21,15 +21,17 @@
                                 <i class="ri-question-line text-primary h-100"></i>
                                 <p>
                                     <b th:text="'Câu ' + ${i.index + 1} + ': '" class="text-primary"></b>
-                                    <strong th:text="${question.name}"></strong>
+                                    <strong th:data-question-name="'question-'+${i.index}" th:text="${question.name}"></strong>
                                 </p>
                             </div>
                             <hr/>
                             <div class="px-4">
                                 <div class="form-check mb-2" th:each="answer, j : ${question.answers}">
                                     <input class="form-check-input" type="radio"
-                                            th:name="'exampleForm-'+${i.index}"
-                                           th:id="'radio-' + ${i.index} + ${j.index}" th:value="${true}" th:field="*{questions[__${i.index}__].answers[__${j.index}__].isCorrect}"/>
+                                           th:data-input-name="'exampleForm-'+${i.index}"
+                                           th:id="'radio-' + ${i.index} + ${j.index}" th:value="${true}"
+                                           th:field="*{questions[__${i.index}__].answers[__${j.index}__].isCorrect}"
+                                           onclick="checkAnswer(this.id)"/>
                                     <label class="form-check-label fs-6" th:for="'radio-' + ${i.index} + ${j.index}"
                                            th:text="${answer.answer}" style="cursor: pointer"></label>
                                 </div>
@@ -39,7 +41,7 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" disabled>Submit</button>
             </div>
         </form>
     </div>
@@ -48,3 +50,29 @@
 <th:block th:replace="~{layout :: script-js}"></th:block>
 </body>
 </html>
+<script>
+    function checkAnswer(id) {
+        var input = document.getElementById(id);
+        var inputlist = document.querySelectorAll('[data-input-name="'+input.getAttribute('data-input-name')+'"]');
+        for (var i = 0; i < inputlist.length; i++) {
+            if (inputlist[i].id != id) {
+                inputlist[i].checked = false;
+                continue
+            }
+        }
+        checkSubmit();
+    }
+    function checkSubmit() {
+        var inputlist = document.querySelectorAll('[data-input-name]');
+        var total = document.querySelectorAll('[data-question-name]').length;
+        for (var i = 0; i < inputlist.length; i++) {
+            if (inputlist[i].checked == true) {
+                total--;
+            }
+        }
+        if (total == 0) {
+            document.querySelector('[type="submit"]').disabled = false;
+            return;
+        }
+    }
+</script>

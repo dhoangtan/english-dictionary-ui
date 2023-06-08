@@ -83,10 +83,17 @@
 
                             </a>
                         </li>
-                        <li>
+                        <li th:if="${!session.isEmpty()}">
                             <a th:href="@{/logout}">
                                 <i class='bx bxs-log-out bx-flip-horizontal fs-5 me-2' ></i>
                                 <span>Logout</span>
+
+                            </a>
+                        </li>
+                        <li th:if="${session.isEmpty()}">
+                            <a th:href="@{/login}">
+                                <i class='bx bxs-log-out bx-flip-horizontal fs-5 me-2' ></i>
+                                <span>Login</span>
 
                             </a>
                         </li>
