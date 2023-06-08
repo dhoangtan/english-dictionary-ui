@@ -202,7 +202,7 @@ public class WordlistController {
             logger.info(CONTROLLER_NAME + "/[card] - [GET] - Called");
             String userId = request.getSession().getAttribute("userId").toString();
             if (userId == null) {
-                logger.info("\tCould not [hàm card dùng để làm gì tôi cũng đéo biết luôn mấy ông?] - User is not logged in");
+                logger.info("\tUser is not logged in");
                 logger.info("\tRedirect to [/login]");
                 logger.info(CONTROLLER_NAME + "/[card] - [GET] - Completed");
                 return "redirect:/login";
@@ -224,7 +224,38 @@ public class WordlistController {
         logger.info(CONTROLLER_NAME + "/[card] - [GET] - Completed");
         return "card/flipCard";
     }
+    // fliping card
+    @GetMapping("/wordlist/sys-flip/{wordlistId}")
+    public String sysFlipCard(
+            HttpServletRequest request,
+            Model model,
+            @PathVariable String wordlistId) {
+        try {
+            logger.info(CONTROLLER_NAME + "/[card] - [GET] - Called");
+            String userId = request.getSession().getAttribute("userId").toString();
+            if (userId == null) {
+                logger.info("\tUser is not logged in");
+                logger.info("\tRedirect to [/login]");
+                logger.info(CONTROLLER_NAME + "/[card] - [GET] - Completed");
+                return "redirect:/login";
+            } else {
+                logger.info("\tRedirect to [/card/flipCard]");
+                WordlistForm wordlist = service.getWordlistById(userId, wordlistId);
+                logger.info(CONTROLLER_NAME + "/[card] - [GET] - Completed");
+                model.addAttribute("wordlist", wordlist);
 
+                return "card/sysFlipCard";
+            }
+        } catch (Exception e) {
+//            return "redirect:/user/wordlist";
+            logger.error("\tError occurred on Server side with message: " + e.getMessage());
+            logger.info("\tRedirect to [/user/wordlist]");
+            logger.info(CONTROLLER_NAME + "/[newWordlist] - [POST] - Completed");
+        }
+        logger.info("\tRedirect to [/card/flipCard]");
+        logger.info(CONTROLLER_NAME + "/[card] - [GET] - Completed");
+        return "card/sysFlipCard";
+    }
     // rename wordlist
     @PostMapping("/wordlist/rename")
     public String renameWordlist(

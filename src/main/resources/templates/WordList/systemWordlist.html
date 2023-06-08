@@ -27,7 +27,7 @@
                         <i class="ri-file-word-2-fill"></i>
                     </div>
                     <h4><a href="" th:text="${list.name }"></a></h4>
-                    <form th:action="@{'/wordlist/flip/' + ${list.wordlistId}}" method="get" class="p-2">
+                    <form th:action="@{'/wordlist/sys-flip/' + ${list.wordlistId}}" method="get" class="p-2">
                         <button class="btn btn-outline-primary" type="submit">
                             View
                         </button>

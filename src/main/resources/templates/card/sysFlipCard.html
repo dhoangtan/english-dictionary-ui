@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>English Dictionary</title>
+  <th:block th:replace="~{layout :: link-css}"></th:block>
+  <th:block th:replace="~{layout :: link-css-layout}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{layout :: header}"></th:block>
+
+<section id="hero" class="d-flex align-items-center">
+  <div class="container position-relative">
+    <h1 class="text-center text-primary" th:text="${wordlist.getName()}"></h1>
+    <hr>
+    <div id="carouselExample" class="carousel slide align-items-center justify-content-center">
+      <div class="carousel-inner ">
+        <div th:if="${wordlist.getWords().isEmpty()}" class="text-center">
+          <h3 class="text-danger">Chưa có word</h3>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Add new word
+          </button>
+        </div>
+        <div class="carousel-item active h-100" th:each="word,i : ${wordlist.words}"> <!-- Slide item -->
+          <div class="card text-center "> <!-- Card-item -->
+            <div class="card-header">
+              <img src="https://e1.pngegg.com/pngimages/378/567/png-clipart-macos-app-icons-microsoft-word.png" class="text-center h-25 w-25">
+            </div>
+            <div class="card-footer">
+              <h5 class="card-title" th:text="${wordlist.words.get(i.index).getWord()}"></h5>
+              <p style="display: none;"  th:id="'card-' + ${i.index}" class="card-text" th:text="${wordlist.words.get(i.index).definition}"></p>
+              <button type="button" class="btn btn-primary" th:onclick="'toggleDivVisibility(\'card-'+${i.index}+'\');'">Go somewhere</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev btn btn-primary" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next btn btn-primary" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</section>
+<th:block th:replace="~{layout :: footer}"></th:block>
+<th:block th:replace="~{layout :: script-js}"></th:block>
+<script th:src="@{/flipcard/flipcard.js}"></script>
+</body>
+</html>
+<script>
+  function removeWord(wordlistId,wordId) {
+    window.location.href = "/wordlist/delete/" + wordlistId + "/" + wordId;
+  }
+</script>
