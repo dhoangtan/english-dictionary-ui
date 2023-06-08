@@ -35,13 +35,13 @@ public class UserService {
         return response;
     }
 
-    public ResponseEntity<String> Register(@PathVariable("registerForm") @NonNull RegisterForm registerForm) {
+    public ResponseEntity<String> Register(@PathVariable("registerForm") @NonNull RegisterForm registerForm, String code) {
         try {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<RegisterForm> request = new HttpEntity<>(registerForm, headers);
-            String url = "http://localhost:" + Port + "/api/user/new";
+            String url = "http://localhost:" + Port + "/api/user/new/"+code;
             ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
             return response;
         } catch (Exception e) {

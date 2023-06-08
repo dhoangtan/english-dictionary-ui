@@ -14,17 +14,12 @@
                 <h1>Register</h1>
                 <input class="input" type="text" placeholder="Name" th:field="*{fullName}"/>
                 <input class="input" type="email" id="email" th:field="*{email}" placeholder="Email" />
-                <!--<div>
-                    <form th:action="@{/user/verify}" method="post" id="formVerify">
-                        <input class="input" type="email" id="input2" name="email" placeholder="Email"/>
-                        <button type="submit" class="btn btn-info" onclick="sendEmail()">
-                            <i class="bi bi-send"></i>
-                        </button>
-                    </form>
+                <div>
+                    <button type="button" class="btn btn-info" onclick="sendEmail()">
+                        <i class="bi bi-send"></i>
+                    </button>
                     <input class="verifycode" type="text" placeholder="Verify code" name="code"/>
-                </div>-->
-                <button type="submit" class="btn btn-info" onclick="sendEmail()">
-                    <i class="bi bi-send"></i>
+                </div>
                 </button>
                 <input class="input" type="password" placeholder="Password" th:field="*{password}"/>
                 <div class="input-group mb-3">
@@ -111,13 +106,13 @@
   var email = document.getElementById('email').value;
 
   // Create the request body as an object
-  var requestBody = { email: email };
 
   // Make the POST request using fetch
-  fetch('https://localhost:4040/api/user/verify', {
+  fetch('http://localhost:4040/api/user/verify', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/text'
+      'Content-Type': 'text/plain',
+      'Access-Control-Allow-Origin':'http://localhost:8088'
     },
     body: email
   })

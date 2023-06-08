@@ -112,12 +112,12 @@ public class MainController {
     }
 
     @PostMapping("/register")
-    public String register(
+    public String register(@RequestParam("code") String code,
             @ModelAttribute("registerForm") RegisterForm registerForm
     ) {
         try{
             logger.info(CONTROLLER_NAME + "/[register] - [POST] - Called");
-            if(userService.Register(registerForm).getStatusCode().is2xxSuccessful())
+            if(userService.Register(registerForm,code).getStatusCode().is2xxSuccessful())
             {
                 logger.info("\tUser login - Success");
                 logger.info("\tRedirect to [/login]");
