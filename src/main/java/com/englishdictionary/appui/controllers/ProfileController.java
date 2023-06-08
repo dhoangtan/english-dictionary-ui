@@ -11,9 +11,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -45,7 +53,7 @@ public class ProfileController {
             Map level= userService.getLevel();
             Map occupation= userService.getOccupation();
             model.addAttribute("userId",userId);
-            model.addAttribute("fileAvt", new FileAvt());
+            /*model.addAttribute("fileAvt", new FileAvt());*/
             model.addAttribute("gender",gender);
             model.addAttribute("level",level);
             model.addAttribute("occupation",occupation);
@@ -82,7 +90,7 @@ public class ProfileController {
         }
     }
     @PostMapping("/profile/updateAvt")
-    public String updateAvt(@ModelAttribute("fileAvt") FileAvt multipartFile, HttpServletRequest request){
+    public String updateAvt(@RequestParam("files") MultipartFile files, HttpServletRequest request){
         logger.info(CONTROLLER_NAME + "/[updateAvatar] - [POST] - Called");
         if (request.getSession().getAttribute("userId") == null) {
             logger.info("\tUpdate profile failed - User not logged in");
@@ -91,7 +99,8 @@ public class ProfileController {
             return "redirect:/login";
         }else {
             String userId = request.getSession().getAttribute("userId").toString();
-            userService.updateAvatar(multipartFile,userId);
+
+            userService.updateAvatar(files,userId);
             logger.info("\tUpdate profile - Success");
             logger.info("\tRedirect to [/user/profile]");
             logger.info(CONTROLLER_NAME + "/[updateAvatar] - [POST] - Completed");

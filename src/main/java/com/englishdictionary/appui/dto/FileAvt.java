@@ -8,4 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileAvt {
 
     private MultipartFile file;
+
+    public MultipartFile getFile() {
+        return file;
+    }
 }

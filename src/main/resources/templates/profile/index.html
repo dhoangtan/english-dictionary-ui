@@ -44,7 +44,7 @@
           <div id="about" class="about">
             <div class="container">
               <div class="text-center mt-2">
-                <h2>About</h2>
+                <h2>My Profile</h2>
               </div>
               <div class="d-flex justify-content-end text-center py-1">
                 <button class="BtnEdit me-3" data-bs-toggle="modal"
@@ -54,36 +54,51 @@
                 </button>
               </div>
               <div class="row">
-                <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
-                  <h4>UI/UX Designer &amp; Web Developer.</h4>
-                  <p class="fst-italic">
-                    Lorem ipsum dolor sit amet.....
-                  </p>
+                <div class="col-lg-10 pt-4 pt-lg-0 content" data-aos="fade-left">
+                  <div class="fst-italic">
+                    <span>Hello, </span>
+                    <span class="text-capitalize" th:text="${user.getFullName()}"></span>
+                    <span>. Nice to meet you!!!</span><br>
+                    <span>You can tell me information about you by clicking the button on the right.</span><br>
+                    <span>That's also how you update your profile.</span><br>
+                  </div>
+                  <hr>
+                  <h4>About me.</h4><br>
                   <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-10">
                       <ul>
                         <li>
                           <i class="bi bi-chevron-right"></i>
                           <strong>Gender:</strong> <span th:text="${userGender}"></span></li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Level:</strong> <span th:text="${userLevel}"></span></li>
+                        <li>
+                          <i class="bi bi-chevron-right"></i>
+                          <strong>Level:</strong> <span th:text="${userLevel}"></span>
+                        </li>
+                        <li>
+                          <div th:if="${userLevel} == 'Beginner'">
+                            <span>You know a little English.</span><br>
+                            <span>You can have simple conversations in shops, restaurants, etc.</span><br>
+                            <span>You can write simple sentences, but you usually need a dictionary to help you.</span>
+                          </div>
+                          <div th:if="${userLevel} == 'Advanced'">
+                            <span>You can speak and write confidently about a wide range topics.</span><br>
+                            <span>You can read English books and newspapers, but use a dictionary to look up unfamiliar words.</span>
+                          </div>
+                          <div th:if="${userLevel} == 'Intermediate'">
+                            <span>You can have simple conversations about a lot of different topics.</span><br><br>
+                            <span>You can make some complex sentences.</span><br>
+                            <span>You can read some English texts, but often need a dictionary to help you.</span>
+                          </div>
+                        </li>
                         <li><i class="bi bi-chevron-right"></i> <strong>Occupation:</strong> <span th:text="${userOccupation}"></span></li>
                       </ul>
+                      <br>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div><!-- End About Section -->
-          <div class="card-body p-4 text-black">
-            <div class="mb-5">
-              <p class="lead fw-normal mb-1">About</p>
-              <div class="p-4" style="background-color: #f8f9fa;">
-                <p class="font-italic mb-1">Web Developer</p>
-                <p class="font-italic mb-1">Lives in New York</p>
-                <p class="font-italic mb-0">Photographer</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -153,10 +168,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form th:action="@{/user/profile/updateAvt}" method="post" enctype="multipart/form-data" th:object="${fileAvt}">
+        <form th:action="@{/user/profile/updateAvt}" method="post" enctype="multipart/form-data">
           <div class="mb-3">
             <label for="file" class="form-label">Update profile picture</label>
-            <input class="form-control" th:field="*{file}" type="file" id="file" accept=".png, .jpg, .jpeg">
+            <input class="form-control" name="files" type="file" id="file" accept=".png, .jpg, .jpeg">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

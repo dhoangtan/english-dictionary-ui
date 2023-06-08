@@ -114,13 +114,17 @@ public class UserService {
         return response.getBody();
     }
 
-    public ResponseEntity<String> updateAvatar(FileAvt file, String userId) {
+    public ResponseEntity<String> updateAvatar(MultipartFile file, String userId) {
         try {
             RestTemplate restTemplate = new RestTemplate();
-            String url = "http://localhost:" + Port + "/api/user/profile/files/"+userId;
-            /*HttpHeaders headers = new HttpHeaders();
-            HttpEntity<MultipartFile> requestEntity = new HttpEntity<>(file,headers);*/
-            ResponseEntity<String> response = restTemplate.postForEntity(url, file.getFile(), String.class);
+            String url = "http://localhost:" + "4040" + "/api/user/profile/files/"+userId;
+
+            MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+            map.add("file", file.getResource());
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
+            ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
             return response;
         } catch (Exception e) {
             e.printStackTrace();
