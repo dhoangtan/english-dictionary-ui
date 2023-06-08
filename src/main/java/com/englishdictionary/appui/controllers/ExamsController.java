@@ -53,8 +53,8 @@ public class ExamsController {
     @PostMapping("/exams")
     public String postExams(
             HttpServletRequest request,
-            Model model,
-            @ModelAttribute("questions") ListQuestion questions
+            Model model
+            , @ModelAttribute("questions") ListQuestion questions
     ) {
         int grade = 0;
         ListQuestion serverQuestions = examsService.getAllQuestions().getBody();
@@ -80,8 +80,11 @@ public class ExamsController {
         }
 
         System.out.println("Grade: " + grade);
-        model.addAttribute("questions", questions);
-        return "redirect:/exams";
+        System.out.println("Questions: " + questions.getList().get(0).getAnswers().get(0).getIsCorrect());
+        model.addAttribute("questions", serverQuestions);
+        model.addAttribute("grade", grade);
+        model.addAttribute("total", serverQuestions.getList().size());
+        return "exams/resultExams";
     }
 
     private void setFalseAnswer(ListQuestion questions) {

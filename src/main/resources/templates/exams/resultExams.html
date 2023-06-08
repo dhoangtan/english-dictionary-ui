@@ -12,9 +12,17 @@
 
 <section class="d-flex align-items-center">
     <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
-        <!--        <form th:action="@{/exams}" th:object="${questionsDTO}" method="post">-->
         <div class="row justify-content-center">
-            <div class="mx-0 mx-sm-auto mt-3" th:each="question, i : ${questions}">
+            <h2 class="text-center">Kết quả thi:
+                <span th:text="${grade} +'/'+ ${total}" class="bg-primary"></span>
+            </h2>
+        </div>
+        <hr/>
+        <div class="row justify-content-center">
+            <h3 class="text-center text-primary">Đáp án</h3>
+        </div>
+        <div class="row justify-content-center">
+            <div class="mx-0 mx-sm-auto mt-3" th:each="question, i : ${questions.getList()}">
                 <div class="card">
                     <div class="card-body">
                         <div class="text-center">
@@ -27,20 +35,30 @@
                         <hr/>
                         <div class="px-4">
                             <div class="form-check mb-2" th:each="answer, j : ${question.getAnswers()}">
-                                <input class="form-check-input" type="radio" th:name="'exampleForm-'+${i.index}" th:id="'radio-'+${i.index}+${j.index}" th:checked="${answer.getIsCorrect()}"/>
-                                <label class="form-check-label fs-6" th:for="'radio-'+${i.index}+${j.index}" th:text="${answer.getAnswer()} + '---->' + ${answer.getIsCorrect()}" style="cursor: pointer"></label>
+                                <!--                                </div>-->
+                                <input th:if="${answer.getIsCorrect() == true}"
+                                       class="form-check-input bg-primary" type="radio"
+                                       th:name="'exampleForm-'+${i.index}"
+                                       th:id="'radio-'+${i.index}+${j.index}" disabled/>
+                                <input th:if="${answer.getIsCorrect() == false}"
+                                       class="form-check-input" type="radio"
+                                       th:name="'exampleForm-'+${i.index}"
+                                       th:id="'radio-'+${i.index}+${j.index}" disabled/>
+                                <label class="form-check-label fs-6" th:for="'radio-'+${i.index}+${j.index}"
+                                       th:text="${answer.getAnswer()}"
+                                       style="cursor: pointer" disabled></label>
                             </div>
 
                         </div>
                     </div>
-                    <!--                        <div class="card-footer text-end"><button type="button" class="btn btn-primary">Submit</button></div>-->
                 </div>
             </div>
         </div>
+        <br>
         <div class="row justify-content-center">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button onclick="return window.location.href = '/';" type="button" class="btn btn-primary">Back Home
+            </button>
         </div>
-        <!--        </form>-->
     </div>
 </section>
 <th:block th:replace="~{layout :: footer}"></th:block>
