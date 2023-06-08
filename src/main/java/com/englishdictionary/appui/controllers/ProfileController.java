@@ -86,8 +86,12 @@ public class ProfileController {
             logger.info("\tUpdate profile - Success");
             logger.info("\tRedirect to [/user/profile]");
             logger.info(CONTROLLER_NAME + "/[updateProfile] - [POST] - Completed");
+            if (userService.updateUser(user,userId).getStatusCode().is2xxSuccessful()) {
+                return "redirect:/user/profile";
+            }
             return "redirect:/user/profile";
         }
+
     }
     @PostMapping("/profile/updateAvt")
     public String updateAvt(@RequestParam("files") MultipartFile files, HttpServletRequest request){
