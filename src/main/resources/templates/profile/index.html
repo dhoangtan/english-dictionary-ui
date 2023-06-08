@@ -14,25 +14,37 @@
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-lg-12 col-xl-9">
         <div class="card">
-          <div class="rounded-top text-white d-flex flex-row" th:style="'background-image: url(/image/banner.jpg); height:200px; object-fit: cover'" style="">
-            <label class="switch position-absolute top-0 end-0 me-3" style="margin-top: 167px;">
-              <input type="checkbox">
-              <span class="slider"></span>
-            </label>
-            <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px; height: 250px;">
-              <img th:src="@{${urlAvt}}"
-                   alt="" class="img-fluid img-thumbnail mt-4 mb-2"
-                   style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; z-index: 1">
+          <div class="rounded-top d-flex flex-row"
+               th:style="'background-image: url(/image/Background-banner-1.jpg); height:190px; object-fit: cover'" style="">
+            <div class="ms-5 d-flex flex-column" style="width: 160px; height: 160px; margin-top: 120px">
+              <div class="position-relative">
+                <img th:src="@{${urlAvt}}"
+                     alt="" class="img-fluid img-thumbnail"
+                     style="width: 160px; height: 160px; border-radius: 50%; object-fit: cover; z-index: 1">
+                <div class="position-absolute bottom-0 end-0">
+                  <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#uploadfile">
+                    <i class='bx bx-upload'></i>
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="ms-3" style="margin-top: 130px;">
-              <h5 th:text="${user.getFullName()}"></h5>
-              <p>New York</p>
+            <div class="fs-2 ms-3 position-relative" style="margin-top: 190px; color:#000">
+              <p class="text-capitalize" th:text="${user.getFullName()}"></p>
+            </div>
+          </div>
+          <div class="" style="background-color: #E9ECEF;height: 100px">
+            <div class="d-flex justify-content-end text-center py-1">
+              <label class="switch position-absolute top-0 end-0 me-3" style="margin-top: 177px;">
+                <input type="checkbox">
+                <span class="slider"></span>
+              </label>
+
             </div>
           </div>
           <div id="about" class="about">
             <div class="container">
-              <div class="text-center">
-                <h2>About</h2>
+              <div class="text-center mt-2">
+                <h2>My Profile</h2>
               </div>
               <div class="d-flex justify-content-end text-center py-1">
                 <button class="BtnEdit me-3" data-bs-toggle="modal"
@@ -42,36 +54,51 @@
                 </button>
               </div>
               <div class="row">
-                <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
-                  <h4>UI/UX Designer &amp; Web Developer.</h4>
-                  <p class="fst-italic">
-                    Lorem ipsum dolor sit amet.....
-                  </p>
+                <div class="col-lg-10 pt-4 pt-lg-0 content" data-aos="fade-left">
+                  <div class="fst-italic">
+                    <span>Hello, </span>
+                    <span class="text-capitalize" th:text="${user.getFullName()}"></span>
+                    <span>. Nice to meet you!!!</span><br>
+                    <span>You can tell me information about you by clicking the button on the right.</span><br>
+                    <span>That's also how you update your profile.</span><br>
+                  </div>
+                  <hr>
+                  <h4>About me.</h4><br>
                   <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-10">
                       <ul>
                         <li>
                           <i class="bi bi-chevron-right"></i>
                           <strong>Gender:</strong> <span th:text="${userGender}"></span></li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Level:</strong> <span th:text="${userLevel}"></span></li>
+                        <li>
+                          <i class="bi bi-chevron-right"></i>
+                          <strong>Level:</strong> <span th:text="${userLevel}"></span>
+                        </li>
+                        <li>
+                          <div th:if="${userLevel} == 'Beginner'">
+                            <span>You know a little English.</span><br>
+                            <span>You can have simple conversations in shops, restaurants, etc.</span><br>
+                            <span>You can write simple sentences, but you usually need a dictionary to help you.</span>
+                          </div>
+                          <div th:if="${userLevel} == 'Advanced'">
+                            <span>You can speak and write confidently about a wide range topics.</span><br>
+                            <span>You can read English books and newspapers, but use a dictionary to look up unfamiliar words.</span>
+                          </div>
+                          <div th:if="${userLevel} == 'Intermediate'">
+                            <span>You can have simple conversations about a lot of different topics.</span><br><br>
+                            <span>You can make some complex sentences.</span><br>
+                            <span>You can read some English texts, but often need a dictionary to help you.</span>
+                          </div>
+                        </li>
                         <li><i class="bi bi-chevron-right"></i> <strong>Occupation:</strong> <span th:text="${userOccupation}"></span></li>
                       </ul>
+                      <br>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div><!-- End About Section -->
-          <div class="card-body p-4 text-black">
-            <div class="mb-5">
-              <p class="lead fw-normal mb-1">About</p>
-              <div class="p-4" style="background-color: #f8f9fa;">
-                <p class="font-italic mb-1">Web Developer</p>
-                <p class="font-italic mb-1">Lives in New York</p>
-                <p class="font-italic mb-0">Photographer</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -79,7 +106,7 @@
 </section>
 <th:block th:replace="~{layout :: footer}"></th:block>
 <th:block th:replace="~{layout :: script-js}"></th:block>
-<!--Dialog-->
+<!--Dialog edit profile-->
 <div class="modal fade" id="editProfile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -132,6 +159,36 @@
     </div>
   </div>
 </div>
-</body>
+<!-- Dialog Upload file -->
+<div class="modal fade" id="uploadfile" tabindex="-1" aria-labelledby="uploadFileLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadFileLabel">Upload File</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/user/profile/updateAvt}" method="post" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="file" class="form-label">Update profile picture</label>
+            <input class="form-control" name="files" type="file" id="file" accept=".png, .jpg, .jpeg">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
 
+    </div>
+  </div>
+</div>
+</body>
+<script>
+    function action(let userID){
+         const xhr = new XMLHttpRequest();
+         xhr.open('POT', 'http://localhost:4040/api/user/profile/files/');
+         setTimeout(function () {window.location.href="/user/profile"; }, 1000);
+    }
+</script>
 </html>
