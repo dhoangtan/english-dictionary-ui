@@ -33,14 +33,14 @@
                     <h4><a href="" th:text="${list.name}"></a></h4>
                     <!--                    <h4><a th:text="${list.wordlistId}"></a></h4>-->
                     <div class="d-inline-flex">
-                        <form th:action="@{'/wordlist/flip/' + ${list.wordlistId}}" method="get" class="p-2">
+                        <form th:action="@{'/wordlist/flip/' + ${list.wordlistId}}" method="get" class="h-100 mx-2">
                             <button class="btn btn-outline-primary" type="submit">
                                 View
                             </button>
                         </form>
-                        <button th:id="${list.wordlistId}" type="button" class="btn btn-danger"
+                        <button th:id="${list.wordlistId}" type="button" class="btn btn-outline-danger align-items-center"
                                 onclick="deleteWordlist(this.id)">
-                            <i class="ri-delete-bin-6-fill"></i>
+                            <i class="ri-delete-bin-6-fill text-danger h-100 w-100"></i>
                         </button>
                     </div>
                 </div>

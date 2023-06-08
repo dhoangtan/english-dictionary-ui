@@ -194,7 +194,7 @@ public class WordlistController {
 
     // fliping card
     @GetMapping("/wordlist/flip/{wordlistId}")
-    public String card(
+    public String userFlipCard(
             HttpServletRequest request,
             Model model,
             @PathVariable String wordlistId) {
