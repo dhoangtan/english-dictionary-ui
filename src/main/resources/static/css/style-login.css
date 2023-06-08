@@ -176,13 +176,30 @@ button.ghost:hover i.login {
   height: 100%;
   text-align: center;
 }
-input {
+.input {
   background-color: #eee;
   border-radius: 10px;
   border: none;
   padding: 12px 15px;
   margin: 8px 0;
   width: 100%;
+}
+.verifycode {
+  background-color: #eee;
+  border-radius: 10px;
+  border: none;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 200px;
+}
+.checkbox input {
+  background-color: #eee;
+  border-radius: 10px;
+  border: none;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 16px;
+  height: 16px;
 }
 .container2 {
   background-color: #fff;

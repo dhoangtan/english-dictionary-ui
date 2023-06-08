@@ -12,12 +12,21 @@
         <div class="form1">
             <form th:action="@{/register}" method="post" th:object="${registerForm}">
                 <h1>Register</h1>
-                <input type="text" placeholder="Name" th:field="*{fullName}"/>
-                <input type="email" th:field="*{email}" placeholder="Email" />
-                <input type="password" placeholder="Password" th:field="*{password}"/>
-                <!--<input type="number" placeholder="Gender" th:field="*{gender}"/>
-                <input type="number" placeholder="Level" th:field="*{level}"/>
-                <input type="number" placeholder="Occupation" th:field="*{occupation}"/>-->
+                <input class="input" type="text" placeholder="Name" th:field="*{fullName}"/>
+                <input class="input" type="email" id="email" th:field="*{email}" placeholder="Email" />
+                <!--<div>
+                    <form th:action="@{/user/verify}" method="post" id="formVerify">
+                        <input class="input" type="email" id="input2" name="email" placeholder="Email"/>
+                        <button type="submit" class="btn btn-info" onclick="sendEmail()">
+                            <i class="bi bi-send"></i>
+                        </button>
+                    </form>
+                    <input class="verifycode" type="text" placeholder="Verify code" name="code"/>
+                </div>-->
+                <button type="submit" class="btn btn-info" onclick="sendEmail()">
+                    <i class="bi bi-send"></i>
+                </button>
+                <input class="input" type="password" placeholder="Password" th:field="*{password}"/>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupSelect01">Gender</label>
                     <select class="form-select" id="inputGroupSelect01" name="gender">
@@ -91,6 +100,38 @@
     function action(){
          setTimeout(function () {window.location.href="/login"; }, 1000);
     }
+    function getEmail(event){
+    event.preventDefault();
+        var inputEmail = document.getElementById("email").value;
+        document.getElementById("input2").value = inputEmail;
+        document.getElementById("formVerify").submit();
+    }
+    function sendEmail() {
+  // Get the value from the input field
+  var email = document.getElementById('email').value;
+
+  // Create the request body as an object
+  var requestBody = { email: email };
+
+  // Make the POST request using fetch
+  fetch('https://localhost:4040/api/user/verify', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/text'
+    },
+    body: email
+  })
+    .then(function(response) {
+      if (response.ok) {
+        console.log('Email sent successfully!');
+      } else {
+        console.log('Error sending email. Status code: ' + response.status);
+      }
+    })
+    .catch(function(error) {
+      console.log('Error sending email:', error);
+    });
+}
 </script>
 </body>
 </html>

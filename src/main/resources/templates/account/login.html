@@ -20,11 +20,11 @@
             <section id="loginForm">
                 <form th:action="@{/login}" method="post" th:object="${loginForm}">
                     <h1>Login</h1>
-                    <input type="email" placeholder="Email" id="username" th:field="*{email}">
-                    <input type="password" placeholder="Password" id="password" th:field="*{password}">
+                    <input class="input" type="email" placeholder="Email" id="username" th:field="*{email}">
+                    <input class="input" type="password" placeholder="Password" id="password" th:field="*{password}">
                     <div class="checkbox">
-                        <input type="checkbox" name="checkbox" id="checkbox">
-                        <label>Remember me</label>
+                        <input class="d-inline" type="checkbox" name="checkbox" id="checkbox" onclick="showPassword()">
+                        <span>Show password</span>
                     </div>
                     <button type="submit">Login</button>
                 </form>
@@ -69,6 +69,15 @@
     function action(){
          setTimeout(function () {window.location.href="/register"; }, 1000);
     }
+    function showPassword(){
+    let password = document.getElementById ('password');
+    if (password.type == 'text') {
+        password.type = 'password';
+    } else {
+        password.type = 'text';
+}
+    }
 </script>
+
 </body>
 </html>

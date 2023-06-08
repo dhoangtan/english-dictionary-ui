@@ -110,6 +110,7 @@ public class ProfileController {
             logger.info(CONTROLLER_NAME + "/[updateAvatar] - [POST] - Completed");
             return "redirect:/user/profile";
         }
-            }
+    }
+
 
 }

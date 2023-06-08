@@ -132,4 +132,15 @@ public class UserService {
             return null;
         }
     }
+    public ResponseEntity<String> getVerifyCode(String email)
+    {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:" + Port + "/api/user/verify";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(email,headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+        return response;
+
+    }
 }

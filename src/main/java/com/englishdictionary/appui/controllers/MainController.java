@@ -146,6 +146,18 @@ public class MainController {
             return "redirect:/register";
         }
     }
+    @PostMapping("/verify")
+    public void updateAvt(@RequestParam("email")  String email, HttpServletRequest request){
+        logger.info(CONTROLLER_NAME + "/[verify] - [POST] - Called");
+        userService.getVerifyCode(email);
+        if(userService.getVerifyCode(email).getStatusCode().is2xxSuccessful())
+        {
+            logger.info("\tSend verify code - Success");
+        }else {
+            logger.info("\tSend verify code - Failed");
+        }
+
+    }
 
     @GetMapping("/logout")
     public String logout(
