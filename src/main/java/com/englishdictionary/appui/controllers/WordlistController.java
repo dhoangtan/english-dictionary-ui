@@ -29,7 +29,8 @@ public class WordlistController {
     // đã có ui
     @GetMapping("/wordlist/default")
     public String defaultWordList(
-            Model model) {
+            Model model,
+            HttpServletRequest request) {
         try {
             logger.info(CONTROLLER_NAME + "/[defaultWordList] - [GET] - Called");
             List<Wordlist> wordList = service.defaultWordList();
@@ -232,20 +233,12 @@ public class WordlistController {
             @PathVariable String wordlistId) {
         try {
             logger.info(CONTROLLER_NAME + "/[card] - [GET] - Called");
-            String userId = request.getSession().getAttribute("userId").toString();
-            if (userId == null) {
-                logger.info("\tUser is not logged in");
-                logger.info("\tRedirect to [/login]");
-                logger.info(CONTROLLER_NAME + "/[card] - [GET] - Completed");
-                return "redirect:/login";
-            } else {
                 logger.info("\tRedirect to [/card/flipCard]");
-                WordlistForm wordlist = service.getWordlistById(userId, wordlistId);
+                WordlistForm wordlist = service.getWordlistById("default", wordlistId);
                 logger.info(CONTROLLER_NAME + "/[card] - [GET] - Completed");
                 model.addAttribute("wordlist", wordlist);
 
                 return "card/sysFlipCard";
-            }
         } catch (Exception e) {
 //            return "redirect:/user/wordlist";
             logger.error("\tError occurred on Server side with message: " + e.getMessage());
