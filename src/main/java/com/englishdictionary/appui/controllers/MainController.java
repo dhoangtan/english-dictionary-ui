@@ -119,14 +119,14 @@ public class MainController {
             logger.info(CONTROLLER_NAME + "/[register] - [POST] - Called");
             if(userService.Register(registerForm,code).getStatusCode().is2xxSuccessful())
             {
-                logger.info("\tUser login - Success");
+                logger.info("\tUser register - Success");
                 logger.info("\tRedirect to [/login]");
                 logger.info(CONTROLLER_NAME + "/[register] - [POST] - Completed");
                 return "redirect:/login";
             }
             else
             {
-                logger.info("\tUser login - Failed");
+                logger.info("\tUser register - Failed");
                 logger.info("\tRedirect to [/register]");
                 logger.info(CONTROLLER_NAME + "/[register] - [POST] - Completed");
                 return "redirect:/register";
@@ -146,8 +146,8 @@ public class MainController {
             return "redirect:/register";
         }
     }
-    @PostMapping("/verify")
-    public void updateAvt(@RequestParam("email")  String email, HttpServletRequest request){
+   /* @PostMapping("/verify")
+    public void getVerifyCode(@RequestParam("email")  String email, HttpServletRequest request){
         logger.info(CONTROLLER_NAME + "/[verify] - [POST] - Called");
         userService.getVerifyCode(email);
         if(userService.getVerifyCode(email).getStatusCode().is2xxSuccessful())
@@ -157,7 +157,7 @@ public class MainController {
             logger.info("\tSend verify code - Failed");
         }
 
-    }
+    }*/
 
     @GetMapping("/logout")
     public String logout(

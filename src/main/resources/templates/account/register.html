@@ -20,7 +20,6 @@
                     </button>
                     <input class="verifycode" type="text" placeholder="Verify code" name="code"/>
                 </div>
-                </button>
                 <input class="input" type="password" placeholder="Password" th:field="*{password}"/>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupSelect01">Gender</label>
@@ -94,12 +93,6 @@
 <script>
     function action(){
          setTimeout(function () {window.location.href="/login"; }, 1000);
-    }
-    function getEmail(event){
-    event.preventDefault();
-        var inputEmail = document.getElementById("email").value;
-        document.getElementById("input2").value = inputEmail;
-        document.getElementById("formVerify").submit();
     }
     function sendEmail() {
   // Get the value from the input field

@@ -182,5 +182,48 @@ public class ProfileController {
             return "redirect:/changePassword";
         }
     }
+    @GetMapping("/resetPassword")
+    public String resetPassword(Model model) {
+        logger.info(CONTROLLER_NAME + "/[resetPassword] - [POST] - Called");
+        model.addAttribute("loginForm", new LoginForm());
+        logger.info("\tRedirect to [account/resetPassword]");
+        logger.info(CONTROLLER_NAME + "/[resetPassword] - [POST] - Completed");
+        return "account/resetPassword";
+    }
+    @PostMapping("/resetPassword")
+    public String resetPassword(@RequestParam("code") String code,
+                           @ModelAttribute("loginForm") LoginForm loginForm
+    ) {
+        try{
+            logger.info(CONTROLLER_NAME + "/[resetPassword] - [POST] - Called");
+            if(userService.resetPassword(loginForm,code).getStatusCode().is2xxSuccessful())
+            {
+                logger.info("\tUser reset password - Success");
+                logger.info("\tRedirect to [/login]");
+                logger.info(CONTROLLER_NAME + "/[resetPassword] - [POST] - Completed");
+                return "redirect:/login";
+            }
+            else
+            {
+                logger.info("\tUser login - Failed");
+                logger.info("\tRedirect to [/resetPassword]");
+                logger.info(CONTROLLER_NAME + "/[resetPassword] - [POST] - Completed");
+                return "redirect:/resetPassword";
+            }
+        }
+        catch (HttpClientErrorException e)
+        {
+            logger.error("\tError occurred on Client side with error message: " + e.getMessage());
+            logger.info("\tRedirect to [/resetPassword]");
+            return "redirect:/resetPassword";
+        }
+        catch (HttpServerErrorException e)
+        {
+            logger.error("\tError occurred on Server side with error: " + e.getStatusCode());
+            logger.info("\tRedirect to [/register]");
+            logger.info(CONTROLLER_NAME + "/[resetPassword] - [POST] - Completed");
+            return "redirect:/resetPassword";
+        }
+    }
 
 }

@@ -132,7 +132,7 @@ public class UserService {
             return null;
         }
     }
-    public ResponseEntity<String> getVerifyCode(String email)
+    /*public ResponseEntity<String> getVerifyCode(String email)
     {
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://localhost:" + Port + "/api/user/verify";
@@ -142,7 +142,7 @@ public class UserService {
         ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
         return response;
 
-    }
+    }*/
     public ResponseEntity<String> changePassword(@PathVariable("loginForm") @NonNull LoginForm loginForm, String userId) {
         try {
             RestTemplate restTemplate = new RestTemplate();
@@ -151,6 +151,20 @@ public class UserService {
             HttpEntity<LoginForm> request = new HttpEntity<>(loginForm, headers);
             String url = "http://localhost:" + Port + "/api/user/" + userId;
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, request, String.class);
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public ResponseEntity<String> resetPassword(@PathVariable("loginForm") @NonNull LoginForm loginForm, String code) {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<LoginForm> request = new HttpEntity<>(loginForm, headers);
+            String url = "http://localhost:" + Port + "/api/user/reset/password/" + code;
+            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
             return response;
         } catch (Exception e) {
             e.printStackTrace();
