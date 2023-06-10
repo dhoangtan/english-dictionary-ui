@@ -143,4 +143,18 @@ public class UserService {
         return response;
 
     }
+    public ResponseEntity<String> changePassword(@PathVariable("loginForm") @NonNull LoginForm loginForm, String userId) {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<LoginForm> request = new HttpEntity<>(loginForm, headers);
+            String url = "http://localhost:" + Port + "/api/user/" + userId;
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, request, String.class);
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

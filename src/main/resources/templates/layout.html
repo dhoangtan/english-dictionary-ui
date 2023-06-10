@@ -71,27 +71,27 @@
 
                 <li class="dropdown"><a href="#"><span th:text="#{nav.account}">Account</span> <i class="bi bi-chevron-down"></i></a>
                     <ul>
-                        <li>
-                            <a th:href="@{/user/profile}">
+                        <li style="cursor: pointer">
+                            <a onclick="return window.location.href = '/user/profile';">
                                 <i class='bx bxs-user fs-5 me-2'></i>
                                 <span>Profile</span>
                             </a></li>
-                        <li>
-                            <a href="#">
+                        <li th:if="${!session.isEmpty()}" style="cursor: pointer">
+                            <a onclick="return window.location.href = '/user/changePassword';">
                                 <i class='bx bxs-lock fs-5 me-2'></i>
                                 <span>Change password</span>
 
                             </a>
                         </li>
-                        <li th:if="${!session.isEmpty()}">
-                            <a th:href="@{/logout}">
+                        <li th:if="${!session.isEmpty()}" style="cursor: pointer">
+                            <a onclick="return window.location.href = '/logout';">
                                 <i class='bx bxs-log-out bx-flip-horizontal fs-5 me-2' ></i>
                                 <span>Logout</span>
 
                             </a>
                         </li>
-                        <li th:if="${session.isEmpty()}">
-                            <a th:href="@{/login}">
+                        <li th:if="${session.isEmpty()}" style="cursor: pointer">
+                            <a onclick="return window.location.href = '/login';">
                                 <i class='bx bxs-log-out bx-flip-horizontal fs-5 me-2' ></i>
                                 <span>Login</span>
 

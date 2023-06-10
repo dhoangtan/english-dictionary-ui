@@ -1,13 +1,11 @@
 package com.englishdictionary.appui.controllers;
 
-import com.englishdictionary.appui.dto.CreateWordlistForm;
-import com.englishdictionary.appui.dto.FileAvt;
-import com.englishdictionary.appui.dto.RegisterForm;
-import com.englishdictionary.appui.dto.WordlistForm;
+import com.englishdictionary.appui.dto.*;
 import com.englishdictionary.appui.models.User;
 import com.englishdictionary.appui.models.Wordlist;
 import com.englishdictionary.appui.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +19,12 @@ import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -111,6 +112,75 @@ public class ProfileController {
             return "redirect:/user/profile";
         }
     }
+    @GetMapping("/changePassword")
+    public String changePassword(Model model) {
+        logger.info(CONTROLLER_NAME + "/[changePassword] - [GET] - Called");
+        model.addAttribute("changePassword", new ChangePassword());
+        logger.info(CONTROLLER_NAME + "/[changePassword] - Completed");
+        return "account/changePassword";
+    }
 
+    @PostMapping("/changePassword")
+    public String changePassword(
+            @ModelAttribute("changePassword") ChangePassword changePassword,
+            HttpServletRequest request
+    ) throws IOException {
+        try {
+            logger.info(CONTROLLER_NAME + "/[changePassword] - [PUT] - Called");
+            logger.info("\tCall Get user Id");
+            LoginForm loginForm= new LoginForm(changePassword.getEmail(),changePassword.getPassword());
+            if (userService.getUserId(loginForm).getStatusCode().is2xxSuccessful()) {
+                logger.info("\tGet user called - Completed");
+                logger.info("\tUser Login - Success");
+                String userId = userService.getUserId(loginForm).getBody();
+                loginForm.setPassword(changePassword.getNewPassword());
+                userService.changePassword(loginForm,userId);
+                if (userService.changePassword(loginForm,userId).getStatusCode().is2xxSuccessful()) {
+                    logger.info("\tPut change password called - Completed");
+                    logger.info("\tChange password - Success");
+                    if (userService.getUserId(loginForm).getStatusCode().is2xxSuccessful()) {
+                        logger.info("\tGet user called - Completed");
+                        logger.info("\tUser Login - Success");
+                        String userIdnew = userService.getUserId(loginForm).getBody();
+                        logger.info("\tCreate session");
+                        HttpSession session = request.getSession();
+                        session.setMaxInactiveInterval(60 * 60);
+                        session.setAttribute("userId", userIdnew);
+                        session.setAttribute("email", loginForm.getEmail());
+                        logger.info("\tCreate session - Completed");
+                        logger.info("\tRedirect to [/]");
+                        return "redirect:/";
+                    }else {
+                        logger.info("\tGet user called - Completed");
+                        logger.info("\tUser Login - Failed");
+                        logger.info("\tRedirect to [/login]");
+                        return "redirect:/login";
+                    }
+                }else {
+                    logger.info("\tPut change password called - Completed");
+                    logger.info("\tChange password - Failed");
+                    logger.info("\tRedirect to [/changePassword]");
+                    return "redirect:/changePassword";
+                }
+            } else {
+                logger.info("\tGet user called - Completed");
+                logger.info("\tCheck User - Failed");
+                logger.info("\tRedirect to [/changePassword]");
+                return "redirect:/changePassword";
+            }
+        }
+        catch (HttpClientErrorException e)
+        {
+            logger.error("\tError occurred on Client side with error message: " + e.getMessage());
+            logger.info("\tRedirect to [/changePassword]");
+            return "redirect:/changePassword";
+        }
+        catch (HttpServerErrorException e)
+        {
+            logger.error("\tError occurred on Server side with error: " + e.getStatusCode());
+            logger.info("\tRedirect to [/changePassword]");
+            return "redirect:/changePassword";
+        }
+    }
 
 }
