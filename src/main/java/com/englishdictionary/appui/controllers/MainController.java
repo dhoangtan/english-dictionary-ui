@@ -1,20 +1,20 @@
 package com.englishdictionary.appui.controllers;
 
-import com.englishdictionary.appui.dto.Lang;
 import com.englishdictionary.appui.dto.LoginForm;
 import com.englishdictionary.appui.dto.RegisterForm;
 import com.englishdictionary.appui.service.UserService;
 import com.englishdictionary.appui.service.WordService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
-import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -57,10 +57,13 @@ public class MainController {
 
     @PostMapping("/login")
     public String login(
-            @ModelAttribute("loginForm") LoginForm loginForm,
+            @Valid @ModelAttribute("loginForm") LoginForm loginForm, BindingResult bindingResult,
             HttpServletRequest request
     ) throws IOException {
         try {
+            if(bindingResult.hasErrors()){
+                return "account/login";
+            }
             logger.info(CONTROLLER_NAME + "/[login] - [POST] - Called");
             logger.info("\tCall Get user Id");
             if (userService.getUserId(loginForm).getStatusCode().is2xxSuccessful()) {
@@ -112,25 +115,31 @@ public class MainController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestParam("code") String code,
-            @ModelAttribute("registerForm") RegisterForm registerForm
-    ) {
+    public String register(@RequestParam("code") @NotNull String code,
+                           @Valid @ModelAttribute("registerForm") RegisterForm registerForm, BindingResult result
+                           ) {
         try{
-            logger.info(CONTROLLER_NAME + "/[register] - [POST] - Called");
-            if(userService.Register(registerForm,code).getStatusCode().is2xxSuccessful())
-            {
-                logger.info("\tUser register - Success");
-                logger.info("\tRedirect to [/login]");
-                logger.info(CONTROLLER_NAME + "/[register] - [POST] - Completed");
-                return "redirect:/login";
+            if (result.hasErrors()){
+                return "account/register";
+            }else{
+                logger.info(CONTROLLER_NAME + "/[register] - [POST] - Called");
+                if(userService.Register(registerForm,code).getStatusCode().is2xxSuccessful())
+                {
+                    logger.info("\tUser register - Success");
+                    logger.info("\tRedirect to [/login]");
+                    logger.info(CONTROLLER_NAME + "/[register] - [POST] - Completed");
+                    return "redirect:/login";
+                }
+                else
+                {
+                    logger.info("\tUser register - Failed");
+                    logger.info("\tRedirect to [/register]");
+                    logger.info(CONTROLLER_NAME + "/[register] - [POST] - Completed");
+                    return "redirect:/register";
+                }
             }
-            else
-            {
-                logger.info("\tUser register - Failed");
-                logger.info("\tRedirect to [/register]");
-                logger.info(CONTROLLER_NAME + "/[register] - [POST] - Completed");
-                return "redirect:/register";
-            }
+
+
         }
         catch (HttpClientErrorException e)
         {

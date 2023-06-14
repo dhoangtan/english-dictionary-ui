@@ -21,7 +21,9 @@
                 <form th:action="@{/login}" method="post" th:object="${loginForm}">
                     <h1>Login</h1>
                     <input class="input" type="email" placeholder="Email" id="email" th:field="*{email}">
+                    <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                     <input class="input" type="password" placeholder="Password" id="password" th:field="*{password}">
+                    <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
                     <div class="checkbox">
                         <input class="d-inline" type="checkbox" name="checkbox" id="checkbox" onclick="showPassword()">
                         <span>Show password</span>

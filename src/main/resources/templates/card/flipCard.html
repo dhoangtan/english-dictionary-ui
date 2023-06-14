@@ -27,7 +27,7 @@
                 <div class="carousel-item active h-100" th:each="word,i : ${wordlist.words}"> <!-- Slide item -->
                     <div class="card text-center "> <!-- Card-item -->
                         <div class="card-header">
-                            <img src="https://e1.pngegg.com/pngimages/378/567/png-clipart-macos-app-icons-microsoft-word.png" class="text-center h-25 w-25">
+                            <img th:src="@{/image/word.png}" class="text-center h-25 w-25">
                         </div>
                         <div class="card-body ">
                             <button class="btn btn-danger"

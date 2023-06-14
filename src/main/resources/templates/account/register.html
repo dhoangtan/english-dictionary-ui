@@ -12,16 +12,19 @@
         <div class="form1">
             <form th:action="@{/register}" method="post" th:object="${registerForm}">
                 <h1>Register</h1>
-                <input class="input" type="text" placeholder="Name" th:field="*{fullName}"/>
+                <input class="input" type="text" placeholder="Name" id="fullName" th:field="*{fullName}"/>
+                <span class="text-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></span>
                 <input class="input" type="email" id="email" th:field="*{email}" placeholder="Email" />
+                <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                 <div>
                     <button type="button" class="btn btn-info" onclick="sendEmail()">
                         <i class="bi bi-send"></i>
                     </button>
-                    <input class="verifycode" type="text" placeholder="Verify code" name="code"/>
+                    <input class="verifycode" type="text" placeholder="Verify code" name="code" />
                 </div>
                 <input class="input" type="password" placeholder="Password" th:field="*{password}"/>
-                <div class="input-group mb-3">
+                <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                <div class="input-group mb-1">
                     <label class="input-group-text" for="inputGroupSelect01">Gender</label>
                     <select class="form-select" id="inputGroupSelect01" name="gender">
                         <option hidden="hidden" disabled selected>Choose...</option>
@@ -29,7 +32,8 @@
                                 th:text="${item.value}"></option>
                     </select>
                 </div>
-                <div class="input-group mb-3">
+                <span class="text-danger" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></span>
+                <div class="input-group mb-1">
                     <label class="input-group-text" for="inputGroupSelect02">Level</label>
                     <select class="form-select" id="inputGroupSelect02" name="level">
                         <option hidden="hidden" disabled selected>Choose...</option>
@@ -37,7 +41,8 @@
                                 th:text="${item.value}"></option>
                     </select>
                 </div>
-                <div class="input-group mb-3">
+                <span class="text-danger" th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></span>
+                <div class="input-group">
                     <label class="input-group-text" for="inputGroupSelect03">Occupation</label>
                     <select class="form-select" id="inputGroupSelect03" name="occupation">
                         <option hidden="hidden" disabled selected>Choose...</option>
@@ -45,6 +50,7 @@
                                 th:text="${item.value}"></option>
                     </select>
                 </div>
+                <span class="text-danger" th:if="${#fields.hasErrors('occupation')}" th:errors="*{occupation}"></span>
                 <button type="submit">Register</button>
             </form>
         </div>

@@ -1,31 +1,23 @@
 package com.englishdictionary.appui.controllers;
 
-import com.englishdictionary.appui.dto.*;
+import com.englishdictionary.appui.dto.ChangePassword;
+import com.englishdictionary.appui.dto.LoginForm;
 import com.englishdictionary.appui.models.User;
-import com.englishdictionary.appui.models.Wordlist;
 import com.englishdictionary.appui.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -72,26 +64,40 @@ public class ProfileController {
         }
     }
     @PostMapping("/profile/update")
-    public String updateProfile(
-            @ModelAttribute("user") User user,HttpServletRequest request
-    ) {
-        logger.info(CONTROLLER_NAME + "/[updateProfile] - [POST] - Called");
-        if (request.getSession().getAttribute("userId") == null) {
-            logger.info("\tUpdate profile failed - User not logged in");
-            logger.info("\tRedirect to [/login]");
-            logger.info(CONTROLLER_NAME + "/[updateProfile] - [POST] - Completed");
-            return "redirect:/login";
-        }else {
-            String userId = request.getSession().getAttribute("userId").toString();
-            userService.updateUser(user,userId);
-            logger.info("\tUpdate profile - Success");
-            logger.info("\tRedirect to [/user/profile]");
-            logger.info(CONTROLLER_NAME + "/[updateProfile] - [POST] - Completed");
-            if (userService.updateUser(user,userId).getStatusCode().is2xxSuccessful()) {
+    public String updateProfile(@Valid @ModelAttribute("user") User user,
+                                HttpServletRequest request) {
+        try {
+            logger.info(CONTROLLER_NAME + "/[updateProfile] - [POST] - Called");
+            if (request.getSession().getAttribute("userId") == null) {
+                logger.info("\tUpdate profile failed - User not logged in");
+                logger.info("\tRedirect to [/login]");
+                logger.info(CONTROLLER_NAME + "/[updateProfile] - [POST] - Completed");
+                return "redirect:/login";
+            }else {
+                String userId = request.getSession().getAttribute("userId").toString();
+                userService.updateUser(user,userId);
+                if (userService.updateUser(user,userId).getStatusCode().is2xxSuccessful()) {
+                    logger.info("\tUpdate profile - Success");
+                    logger.info("\tRedirect to [/user/profile]");
+                    logger.info(CONTROLLER_NAME + "/[updateProfile] - [POST] - Completed");
+                    return "redirect:/user/profile";
+                }
                 return "redirect:/user/profile";
             }
+        }catch (HttpClientErrorException e)
+        {
+            logger.error("\tError occurred on Client side with error message: " + e.getMessage());
+            logger.info("\tRedirect to [/Profile]");
             return "redirect:/user/profile";
         }
+        catch (HttpServerErrorException e)
+        {
+            logger.error("\tError occurred on Server side with error: " + e.getStatusCode());
+            logger.info("\tRedirect to [/Profile]");
+            return "redirect:/user/profile";
+        }
+
+
 
     }
     @PostMapping("/profile/updateAvt")
@@ -220,7 +226,7 @@ public class ProfileController {
         catch (HttpServerErrorException e)
         {
             logger.error("\tError occurred on Server side with error: " + e.getStatusCode());
-            logger.info("\tRedirect to [/register]");
+            logger.info("\tRedirect to [/resetPassword]");
             logger.info(CONTROLLER_NAME + "/[resetPassword] - [POST] - Completed");
             return "redirect:/resetPassword";
         }
